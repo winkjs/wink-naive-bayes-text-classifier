@@ -22,7 +22,33 @@ npm install wink-naive-bayes-text-classifier --save
 ```javascript
 
 // Load Naive Bayes Text Classifier
-var nbc = require( 'wink-naive-bayes-text-classifier' );
+var nbc = require( 'wink-naive-bayes-text-classifier' )();
+var nlp = require( 'wink-nlp-utils' );
+
+// Setup preparation tasks
+nbc.definePrepTasks( [
+  nlp.string.tokenize0,
+  nlp.tokens.removeWords,
+  nlp.tokens.stem
+] );
+// Train!
+nbc.learn( 'i want to prepay my loan', 'prepay', true );
+nbc.learn( 'i want to close my loan', 'prepay', true );
+nbc.learn( 'i want to foreclose my loan', 'prepay', true );
+nbc.learn( 'i would like to pay the loan balance', 'prepay', true );
+
+nbc.learn( 'i would like to borrow money to buy a vehice', 'autoloan', true );
+nbc.learn( 'i need loan for car', 'autoloan', true );
+nbc.learn( 'i need loan for a new vehicle', 'autoloan', true );
+nbc.learn( 'i need loan for a new mobike', 'autoloan', true );
+nbc.learn( 'i need money for a new car', 'autoloan', true );
+// Consolidate all the training!!
+nbc.consolidate();
+// Start predicting...
+console.log( nbc.predict( 'I would like to borrow 50000 to buy a new audi r8 in new york' ) );
+// -> autoloan
+console.log( nbc.predict( 'I want to pay my car loan early' ) );
+// -> prepay
 
 ```
 
