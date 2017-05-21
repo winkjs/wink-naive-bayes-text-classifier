@@ -454,6 +454,7 @@ var textNBC = function () {
     precision = Object.create( null );
     recall = Object.create( null );
     fmeasure = Object.create( null );
+    return true;
   }; // reset()
 
   methods.learn = learn;

@@ -79,7 +79,9 @@ describe( 'textNBC() with considerOnlyPresence as true', function () {
     { whenInputIs: [ 'i need money for a new car', 'autoloan' ] , expectedOutputIs: true }
   ];
 
-  learnTNBC.definePrepTasks( [ prepare.string.tokenize0 ] );
+  it( 'definePrepTasks should return 1', function () {
+    expect( learnTNBC.definePrepTasks( [ prepare.string.tokenize0 ] ) ).to.equal( 1 );
+  } );
   examples.forEach( function ( example ) {
     it( 'should return ' + example.expectedOutputIs + ' if the input is ' + JSON.stringify( example.whenInputIs ), function () {
       expect( learnTNBC.learn( example.whenInputIs[ 0 ], example.whenInputIs[ 1 ], true ) ).to.equal( example.expectedOutputIs );
@@ -118,7 +120,10 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
     { whenInputIs: [ 'i need money for a new car', 'autoloan' ] , expectedOutputIs: true }
   ];
 
-  learnTNBC.definePrepTasks( [ prepare.string.tokenize0 ] );
+  it( 'definePrepTasks should return 1', function () {
+    expect( learnTNBC.definePrepTasks( [ prepare.string.tokenize0 ] ) ).to.equal( 1 );
+  } );
+
   examples.forEach( function ( example ) {
     it( 'should return ' + example.expectedOutputIs + ' if the input is ' + JSON.stringify( example.whenInputIs ), function () {
       expect( learnTNBC.learn( example.whenInputIs[ 0 ], example.whenInputIs[ 1 ] ) ).to.equal( example.expectedOutputIs );
@@ -157,4 +162,101 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
   it( 'should return stats if the stats() is called', function () {
    expect( learnTNBC.stats() ).to.deep.equal( stats );
   } );
+} );
+
+
+describe( 'textNBC() with considerOnlyPresence as undefined', function () {
+  var learnTNBC = tnbc();
+  var anotherTNBC = tnbc();
+  // Training Data.
+  var examples = [
+    { whenInputIs: [ 'i want to prepay my loan', 'prepay' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i want to close my loan', 'prepay' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i want to foreclose my loan', 'prepay' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i would like to pay the loan balance', 'prepay' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i would like to borrow money to buy a vehice', 'autoloan' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i need loan for car', 'autoloan' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i need loan for a new vehicle', 'autoloan' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i need loan for a new mobike', 'autoloan' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i need money for a new car', 'autoloan' ] , expectedOutputIs: true }
+  ];
+  // Prediction Data.
+  var predict = [
+    { whenInputIs: 'I would like to borrow 50000 to buy a new audi r8 in new york', expectedOutputIs: 'autoloan'  },
+    { whenInputIs: 'I want to pay my car loan early', expectedOutputIs: 'prepay' },
+    { whenInputIs: '', expectedOutputIs: undefined },
+    { whenInputIs: 'happy', expectedOutputIs: undefined }
+  ];
+  // Test prepTasks definition.
+  it( 'definePrepTasks should return 1', function () {
+    expect( learnTNBC.definePrepTasks( [ prepare.string.tokenize0 ] ) ).to.equal( 1 );
+  } );
+  // Test learn.
+  examples.forEach( function ( example ) {
+    it( 'learn should return ' + example.expectedOutputIs + ' if the input is ' + JSON.stringify( example.whenInputIs ), function () {
+      expect( learnTNBC.learn( example.whenInputIs[ 0 ], example.whenInputIs[ 1 ] ) ).to.equal( example.expectedOutputIs );
+    } );
+  } );
+  // Test consolidation.
+  it( 'consolidate should return true', function () {
+    expect( learnTNBC.consolidate() ).to.equal( true );
+  } );
+  // Test predict.
+  predict.forEach( function ( p ) {
+    it( 'should return ' + p.expectedOutputIs + ' if the input is ' + JSON.stringify( p.whenInputIs ), function () {
+     expect( learnTNBC.predict( p.whenInputIs ) ).to.equal( p.expectedOutputIs );
+    } );
+  } );
+  // Test export to JSON.
+  var json;
+  it( 'exportJSON should return an array', function () {
+    json = learnTNBC.exportJSON();
+    expect( Array.isArray(JSON.parse( json ) ) ).to.equal( true );
+  } );
+  // Test reset.
+  it( 'reset should return true', function () {
+    expect( learnTNBC.reset() ).to.equal( true );
+  } );
+  // Test import JSON
+  it( 'importJSON should return true', function () {
+    expect( learnTNBC.importJSON( json ) ).to.equal( true );
+  } );
+  it( 'imoprtJSON should return an true', function () {
+    expect( anotherTNBC.importJSON( json ) ).to.equal( true );
+  } );
+  // Test throwing errors without consolidation
+  predict.forEach( function ( p ) {
+    it( 'learnTNBC should return throw error unconsolidated', function () {
+     expect( learnTNBC.predict.bind( null, p.whenInputIs ) ).to.throw( 'winkNBTC: prediction is not possible unless learnings are consolidated!' );
+    } );
+  } );
+  predict.forEach( function ( p ) {
+    it( 'anotherTNBC should return throw error unconsolidated', function () {
+     expect( anotherTNBC.predict.bind( null, p.whenInputIs ) ).to.throw( 'winkNBTC: prediction is not possible unless learnings are consolidated!' );
+    } );
+  } );
+  // Now again consolidat.
+  it( 'learnTNBC consolidate should return true post import', function () {
+    expect( learnTNBC.consolidate() ).to.equal( true );
+  } );
+  it( 'anotherTNBC consolidate should return true post import', function () {
+    expect( anotherTNBC.consolidate() ).to.equal( true );
+  } );
+  // Learning must fail after consolidation.
+  examples.forEach( function ( example ) {
+    it( 'learnTNBC learn post consolidation should return throw error', function () {
+      expect( learnTNBC.learn.bind( null, example.whenInputIs[ 0 ], example.whenInputIs[ 1 ] ) ).to.throw( 'winkNBTC: post consolidation learning is not possible!' );
+    } );
+  } );
+  examples.forEach( function ( example ) {
+    it( 'anotherTNBC learn post consolidation should return throw error', function () {
+      expect( anotherTNBC.learn.bind( null, example.whenInputIs[ 0 ], example.whenInputIs[ 1 ] ) ).to.throw( 'winkNBTC: post consolidation learning is not possible!' );
+    } );
+  } );
+  //
+  // predict.forEach( function ( p ) {
+  //   it( 'should return ' + p.expectedOutputIs + ' if the input is ' + JSON.stringify( p.whenInputIs ), function () {
+  //    expect( anotherTNBC.predict( p.whenInputIs ) ).to.equal( p.expectedOutputIs );
+  //   } );
+  // } );
 } );
