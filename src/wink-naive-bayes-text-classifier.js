@@ -73,7 +73,8 @@ var textNBC = function () {
   var fmeasure = Object.create( null );
   // Returned!
   var methods = Object.create( null );
-
+  // Define unknown prediction.
+  var unknown = 'unknown';
   // ### Private functions
 
   // #### Prepare Input
@@ -277,7 +278,7 @@ var textNBC = function () {
     allOdds.sort( helpers.array.descendingOnValue );
     // If odds for the top label is 0 means prediction is `undefined`
     // otherwise return the corresponding label.
-    return ( ( allOdds[ 0 ][ 1 ] ) ? allOdds[ 0 ][ 0 ] : undefined );
+    return ( ( allOdds[ 0 ][ 1 ] ) ? allOdds[ 0 ][ 0 ] : unknown );
   };
 
   // #### Stats
@@ -326,7 +327,7 @@ var textNBC = function () {
       helpers.array.isArray
     ];
     var parsedJSON = JSON.parse( json );
-    if ( parsedJSON.length !== isOK.length ) {
+    if ( !helpers.array.isArray( parsedJSON ) || parsedJSON.length !== isOK.length ) {
       throw Error( 'winkNBTC: invalid JSON encountered, can not import.' );
     }
     for ( var i = 0; i < isOK.length; i += 1 ) {
@@ -356,9 +357,8 @@ var textNBC = function () {
       throw Error( 'winkNBTC: can not evaluate, unknown label enountered: ' + JSON.stringify( label ) );
     }
     var prediction = predict( input );
-    // Check if prediction truely happened: it can fail due to completely unseen
-    // vocubulary or while trying to predict without consolidating the learnings.
-    if ( !prediction ) return false;
+    // If prediction failed then return false!
+    if ( prediction === unknown ) return false;
     // Update confusion matrix.
     if ( prediction === label ) {
       cm[ label ][ prediction ] += 1;
@@ -375,7 +375,9 @@ var textNBC = function () {
   // phase via `evaluate()`. In absence of evaluations, it returns `null`; otherwise
   // it returns an object containing summary metrices along with the details.
   var metrices = function () {
-    if ( !evaluated ) return null;
+    if ( !evaluated ) {
+      throw Error( 'winkNBTC: metrices can not be computed before evaluation.' );
+    }
     // Numerators for every label; they are same for precision & recall both.
     var n = Object.create( null );
     // Only denominators differs for precision & recall
@@ -405,8 +407,14 @@ var textNBC = function () {
     for ( i = 0; i < labelCount; i += 1 ) {
       row = labels[ i ];
       precision[ row ] = +( n[ row ] / pd[ row ] ).toFixed( 4 );
+      // NaN can occur if a label has not been encountered.
+      if ( isNaN( precision[ row ] ) ) precision[ row ] = 0;
+
       recall[ row ] = +( n[ row ] / rd[ row ] ).toFixed( 4 );
+      if ( isNaN( recall[ row ] ) ) recall[ row ] = 0;
+
       fmeasure[ row ] = +( 2 * precision[ row ] * recall[ row ] / ( precision[ row ] + recall[ row ] ) ).toFixed( 4 );
+      if ( isNaN( fmeasure[ row ] ) ) fmeasure[ row ] = 0;
     }
     // Compute thier averages, note they will be macro avegages.
     for ( i = 0; i < labelCount; i += 1 ) {

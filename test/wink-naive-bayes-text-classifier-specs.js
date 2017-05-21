@@ -95,8 +95,8 @@ describe( 'textNBC() with considerOnlyPresence as true', function () {
   var predict = [
     { whenInputIs: 'I would like to borrow 50000 to buy a new audi r8 in new york', expectedOutputIs: 'autoloan'  },
     { whenInputIs: 'I want to pay my car loan early', expectedOutputIs: 'prepay' },
-    { whenInputIs: '', expectedOutputIs: undefined },
-    { whenInputIs: 'happy', expectedOutputIs: undefined }
+    { whenInputIs: '', expectedOutputIs: 'unknown' },
+    { whenInputIs: 'happy', expectedOutputIs: 'unknown' }
   ];
 
   predict.forEach( function ( p ) {
@@ -137,8 +137,8 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
   var predict = [
     { whenInputIs: 'I would like to borrow 50000 to buy a new audi r8 in new york', expectedOutputIs: 'autoloan'  },
     { whenInputIs: 'I want to pay my car loan early', expectedOutputIs: 'prepay' },
-    { whenInputIs: '', expectedOutputIs: undefined },
-    { whenInputIs: 'happy', expectedOutputIs: undefined }
+    { whenInputIs: '', expectedOutputIs: 'unknown' },
+    { whenInputIs: 'happy', expectedOutputIs: 'unknown' }
   ];
 
   predict.forEach( function ( p ) {
@@ -184,12 +184,15 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
   var predict = [
     { whenInputIs: 'I would like to borrow 50000 to buy a new audi r8 in new york', expectedOutputIs: 'autoloan'  },
     { whenInputIs: 'I want to pay my car loan early', expectedOutputIs: 'prepay' },
-    { whenInputIs: '', expectedOutputIs: undefined },
-    { whenInputIs: 'happy', expectedOutputIs: undefined }
+    { whenInputIs: '', expectedOutputIs: 'unknown' },
+    { whenInputIs: 'happy', expectedOutputIs: 'unknown' }
   ];
   // Test prepTasks definition.
   it( 'definePrepTasks should return 1', function () {
     expect( learnTNBC.definePrepTasks( [ prepare.string.tokenize0 ] ) ).to.equal( 1 );
+  } );
+  it( 'definePrepTasks should return 1', function () {
+    expect( anotherTNBC.definePrepTasks( [ prepare.string.tokenize0 ] ) ).to.equal( 1 );
   } );
   // Test learn.
   examples.forEach( function ( example ) {
@@ -221,7 +224,19 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
   it( 'importJSON should return true', function () {
     expect( learnTNBC.importJSON( json ) ).to.equal( true );
   } );
-  it( 'imoprtJSON should return an true', function () {
+  it( 'imoprtJSON should throw error when input is empty', function () {
+    expect( anotherTNBC.importJSON.bind( null ) ).to.throw( 'winkNBTC: undefined or null JSON encountered, import failed!' );
+  } );
+  it( 'imoprtJSON should throw error when input is an object', function () {
+    expect( anotherTNBC.importJSON.bind( null, JSON.stringify( { a: 1 } ) ) ).to.throw( 'winkNBTC: invalid JSON encountered, can not import.' );
+  } );
+  it( 'imoprtJSON should throw error when input is an array of wrong length', function () {
+    expect( anotherTNBC.importJSON.bind( null, JSON.stringify( [ 1, 2 ] ) ) ).to.throw( 'winkNBTC: invalid JSON encountered, can not import.' );
+  } );
+  it( 'imoprtJSON should throw error when input is an array has wrong elements', function () {
+    expect( anotherTNBC.importJSON.bind( null, JSON.stringify( [ [], {}, [], {} ] ) ) ).to.throw( 'winkNBTC: invalid JSON encountered, can not import.' );
+  } );
+  it( 'imoprtJSON should return an true on valid JSON input', function () {
     expect( anotherTNBC.importJSON( json ) ).to.equal( true );
   } );
   // Test throwing errors without consolidation
@@ -253,10 +268,53 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
       expect( anotherTNBC.learn.bind( null, example.whenInputIs[ 0 ], example.whenInputIs[ 1 ] ) ).to.throw( 'winkNBTC: post consolidation learning is not possible!' );
     } );
   } );
-  //
-  // predict.forEach( function ( p ) {
-  //   it( 'should return ' + p.expectedOutputIs + ' if the input is ' + JSON.stringify( p.whenInputIs ), function () {
-  //    expect( anotherTNBC.predict( p.whenInputIs ) ).to.equal( p.expectedOutputIs );
-  //   } );
-  // } );
+  // Test metrices.
+  it( 'metrices should throw error without evaluation', function () {
+    expect( anotherTNBC.metrices.bind( null ) ).to.throw( 'winkNBTC: metrices can not be computed before evaluation.' );
+  } );
+  // Now evaluate; partial not for all labels
+  it( 'evaluate should throw error with unknown label', function () {
+    expect( anotherTNBC.evaluate.bind( null, 'some funny input', 'fun' ) ).to.throw( 'winkNBTC: can not evaluate, unknown label enountered: "fun"' );
+  } );
+  it( 'evaluate should return false with unknown vocab inputs', function () {
+    expect( anotherTNBC.evaluate( 'some funny input', 'prepay' ) ).to.equal( false );
+  } );
+  it( 'evaluate should return true with proper inputs', function () {
+    expect( anotherTNBC.evaluate( 'can i close my loan', 'prepay' ) ).to.equal( true );
+  } );
+  // Test metrices.
+  it( 'metrices should throw error without evaluation', function () {
+    expect( Object.keys( anotherTNBC.metrices( ) ).length ).to.equal( 4 );
+  } );
+  // More evaluation - complete it now.
+  it( 'evaluate should return true with proper inputs', function () {
+    expect( anotherTNBC.evaluate( 'i will use excess fund to close the loan', 'autoloan' ) ).to.equal( true );
+  } );
+  it( 'evaluate should return true with proper inputs', function () {
+    expect( anotherTNBC.evaluate( 'i need to buy a car on loan', 'autoloan' ) ).to.equal( true );
+  } );
+  // Test metrices.
+  it( 'metrices should throw error without evaluation', function () {
+    expect( Object.keys( anotherTNBC.metrices( ) ).length ).to.equal( 4 );
+  } );
+  // Small vocal/labels test
+  it( 'reset should return true', function () {
+    expect( learnTNBC.reset() ).to.equal( true );
+  } );
+  // Learn only one label
+  it( 'learn  with just one label and it should return true', function () {
+    expect( learnTNBC.learn( 'Hi, good morning', 'greet' ) ).to.equal( true );
+  } );
+  // Consolidation should fail.
+  it( 'anotherTNBC learn post consolidation should return throw error', function () {
+    expect( learnTNBC.consolidate.bind( null ) ).to.throw( 'winkNBTC: can not consolidate as classification require 2 or more labels!' );
+  } );
+  // Learn with one more label but ensure less vocab.
+  it( 'learn  with just one label and it should return true', function () {
+    expect( learnTNBC.learn( 'See you soon', 'bye' ) ).to.equal( true );
+  } );
+  // Consolidation should fail due to low vocab.
+  it( 'anotherTNBC learn post consolidation should return throw error', function () {
+    expect( learnTNBC.consolidate.bind( null ) ).to.throw( 'winkNBTC: vocabulary is too small to learn meaningful classification!' );
+  } );
 } );
