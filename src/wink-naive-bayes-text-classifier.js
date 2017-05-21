@@ -117,11 +117,11 @@ var textNBC = function () {
         clw += ( count[ l ][ w ] || 0 );
       }
     }
-    return (
-      ( voc.has( w ) ) ?
-        Math.log2( ( clw + 1 ) / ( wl + voc.size ) ) :
-        0
-    );
+    // No need to perform `voc.has( w )` check as `odds()` will not call the
+    // `inverseLogLikelihood()` if `logLikelihood()` returns a **0**. It does
+    // so to avoid recomputation.
+    return ( Math.log2( ( clw + 1 ) / ( wl + voc.size ) ) );
+
   }; // inverseLogLikelihood()
 
   // #### Odds
@@ -177,13 +177,17 @@ var textNBC = function () {
   // If validation fails it returns `false`; otherwise it sets the
   // `pTasks` and returns `true`.
   var definePrepTasks = function ( tasks ) {
-    if ( !helpers.array.isArray( tasks ) ) return false;
+    if ( !helpers.array.isArray( tasks ) ) {
+      throw Error( 'winkNBTC: tasks should be an array, instead found: ' + JSON.stringify( tasks ) );
+    }
     for ( var i = 0, imax = tasks.length; i < imax; i += 1 ) {
-      if ( typeof tasks[ i ] !== 'function' ) return false;
+      if ( typeof tasks[ i ] !== 'function' ) {
+        throw Error( 'winkNBTC: each task should be a function, instead found: ' + JSON.stringify( tasks[ i ] ) );
+      }
     }
     pTasks = tasks;
     pTaskCount = tasks.length;
-    return true;
+    return pTaskCount;
   }; // definePrepTasks()
 
   // #### Learn
@@ -194,7 +198,9 @@ var textNBC = function () {
   // If learning was successful then it returns `true`; otherwise it returns `false`.
   var learn = function ( input, label, considerOnlyPresence ) {
     // No point in learning further, if learnings so far have been consolidated.
-    if ( consolidated ) return false;
+    if ( consolidated ) {
+      throw Error( 'winkNBTC: post consolidation learning is not possible!' );
+    }
     // Prepare the input.
     var tkns = prepareInput( input );
     // Update vocubulary, count, and words i.e. learn!
@@ -222,8 +228,12 @@ var textNBC = function () {
     labels = helpers.object.keys( samples );
     labelCount = labels.length;
     // A quick & simple check of some minimal learning mass!
-    if ( labelCount < 2 ) return false;
-    if ( voc.size < 10 ) return false;
+    if ( labelCount < 2 ) {
+      throw Error( 'winkNBTC: can not consolidate as classification require 2 or more labels!' );
+    }
+    if ( voc.size < 10 ) {
+      throw Error( 'winkNBTC: vocabulary is too small to learn meaningful classification!' );
+    }
     // Freeze learnings!
     Object.freeze( samples );
     Object.freeze( count );
@@ -252,7 +262,9 @@ var textNBC = function () {
   // in past (i.e. absent in learnings), then the predicted label is `undefined`.
   var predict = function ( input ) {
     // Predict only if learnings have been consolidated!
-    if ( !consolidated ) return null;
+    if ( !consolidated ) {
+      throw Error( 'winkNBTC: prediction is not possible unless learnings are consolidated!' );
+    }
     // Contains label & the corresponding odds pairs.
     var allOdds = [];
     // Temporary label.
@@ -303,7 +315,9 @@ var textNBC = function () {
   // If validation fails then it returns `false`; otherwise on success import it
   // returns `true`.
   var importJSON = function ( json ) {
-    if ( !json ) return false;
+    if ( !json ) {
+      throw Error( 'winkNBTC: undefined or null JSON encountered, import failed!' );
+    }
     // Validate json format
     var isOK = [
       helpers.object.isObject,
@@ -312,9 +326,13 @@ var textNBC = function () {
       helpers.array.isArray
     ];
     var parsedJSON = JSON.parse( json );
-    if ( parsedJSON.length !== isOK.length ) return false;
+    if ( parsedJSON.length !== isOK.length ) {
+      throw Error( 'winkNBTC: invalid JSON encountered, can not import.' );
+    }
     for ( var i = 0; i < isOK.length; i += 1 ) {
-      if ( !isOK[ i ]( parsedJSON[ i ] ) ) return false;
+      if ( !isOK[ i ]( parsedJSON[ i ] ) ) {
+        throw Error( 'winkNBTC: invalid JSON encountered, can not import.' );
+      }
     }
     // All good, setup variable values.
     samples = parsedJSON[ 0 ];
@@ -334,7 +352,9 @@ var textNBC = function () {
   // and returns `true`.
   var evaluate = function ( input, label ) {
     // In case of unknown label, indicate failure
-    if ( !samples[ label ] ) return false;
+    if ( !samples[ label ] ) {
+      throw Error( 'winkNBTC: can not evaluate, unknown label enountered: ' + JSON.stringify( label ) );
+    }
     var prediction = predict( input );
     // Check if prediction truely happened: it can fail due to completely unseen
     // vocubulary or while trying to predict without consolidating the learnings.

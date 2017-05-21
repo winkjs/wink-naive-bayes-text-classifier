@@ -31,51 +31,52 @@ var expect = chai.expect;
 var describe = mocha.describe;
 var it = mocha.it;
 
-// ### Define common errors.
 
-// These are common test data for `null`, `undefined`, and `numeric` inputs
-// across all the functions included in the script.
-// The exception cases specific to the function are part of the test script of the function.
-// var errors = [
-//   { whenInputIs: null, expectedOutputIs: /^Cannot read.*/ },
-//   { whenInputIs: undefined, expectedOutputIs: /^Cannot read.*/ },
-//   { whenInputIs: 1, expectedOutputIs: /is not a function$/ }
-// ];
-
-describe( 'defineprep()', function () {
+describe( 'definePrepTasks() Error Cases', function () {
   var prepTNBC = tnbc();
   var prepTasks = [
-    // Contains non-function.
-    { whenInputIs: [ prepare.string.incorrect, prepare.string.lowerCase ], expectedOutputIs: false },
-    // Has valid functions only.
-    { whenInputIs: [ prepare.string.upperCase, prepare.string.lowerCase ], expectedOutputIs: true },
-    // Error cases.
-    { whenInputIs: null, expectedOutputIs: false },
-    { whenInputIs: undefined, expectedOutputIs: false },
-    { whenInputIs: 1, expectedOutputIs: false },
-    // Empty array is valid!
-    { whenInputIs: [], expectedOutputIs: true }
+    { whenInputIs: [ prepare.string.incorrect, prepare.string.lowerCase ], expectedOutputIs: 'winkNBTC: each task should be a function, instead found: undefined' },
+    { whenInputIs: null, expectedOutputIs: 'winkNBTC: tasks should be an array, instead found: null' },
+    { whenInputIs: undefined, expectedOutputIs: 'winkNBTC: tasks should be an array, instead found: undefined' },
+    { whenInputIs: 1, expectedOutputIs: 'winkNBTC: tasks should be an array, instead found: 1' },
+    { whenInputIs: { a: 3 }, expectedOutputIs: 'winkNBTC: tasks should be an array, instead found: {"a":3}' }
   ];
 
   prepTasks.forEach( function ( ptask ) {
-    it( 'should return ' + ptask.expectedOutputIs + ' if the input is ' + JSON.stringify( ptask.whenInputIs ), function () {
+    it( 'should throw "' + ptask.expectedOutputIs + '" if the input is ' + JSON.stringify( ptask.whenInputIs ), function () {
+      expect( prepTNBC.definePrepTasks.bind( null, ptask.whenInputIs ) ).to.throw( ptask.expectedOutputIs );
+    } );
+  } );
+}
+);
+
+describe( 'definePrepTasks() Proper Cases', function () {
+  var prepTNBC = tnbc();
+  var prepTasks = [
+    { whenInputIs: [ prepare.string.tokenize0, prepare.string.stem ], expectedOutputIs: 2 },
+    { whenInputIs: [ ], expectedOutputIs: 0 }
+  ];
+
+  prepTasks.forEach( function ( ptask ) {
+    it( 'should throw "' + ptask.expectedOutputIs + '" if the input is ' + JSON.stringify( ptask.whenInputIs ), function () {
       expect( prepTNBC.definePrepTasks( ptask.whenInputIs ) ).to.equal( ptask.expectedOutputIs );
     } );
   } );
 }
 );
 
-// ### XXXXXX test cases.
-
-describe( 'textNBC()', function () {
+describe( 'textNBC() with considerOnlyPresence as true', function () {
   var learnTNBC = tnbc();
   var examples = [
-    { whenInputIs: [ 'a great start and continues to amuse!', 'positive' ] , expectedOutputIs: true },
-    { whenInputIs: [ 'a great beginning, lot of funny dialogues ', 'positive' ] , expectedOutputIs: true },
-    { whenInputIs: [ 'hillarious and upbeat', 'positive' ] , expectedOutputIs: true },
-    { whenInputIs: [ 'boring, failed to appeal', 'negative' ] , expectedOutputIs: true },
-    { whenInputIs: [ 'felt like disappearing from the cinema hall, pathetic', 'negative' ] , expectedOutputIs: true },
-    { whenInputIs: [ 'will not recommend to anyone!', 'negative' ] , expectedOutputIs: true }
+    { whenInputIs: [ 'i want to prepay my loan', 'prepay' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i want to close my loan', 'prepay' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i want to foreclose my loan', 'prepay' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i would like to pay the loan balance', 'prepay' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i would like to borrow money to buy a vehice', 'autoloan' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i need loan for car', 'autoloan' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i need loan for a new vehicle', 'autoloan' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i need loan for a new mobike', 'autoloan' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i need money for a new car', 'autoloan' ] , expectedOutputIs: true }
   ];
 
   learnTNBC.definePrepTasks( [ prepare.string.tokenize0 ] );
@@ -90,8 +91,8 @@ describe( 'textNBC()', function () {
   } );
 
   var predict = [
-    { whenInputIs: 'recommend', expectedOutputIs: 'negative'  },
-    { whenInputIs: 'disappearing', expectedOutputIs: 'negative' },
+    { whenInputIs: 'I would like to borrow 50000 to buy a new audi r8 in new york', expectedOutputIs: 'autoloan'  },
+    { whenInputIs: 'I want to pay my car loan early', expectedOutputIs: 'prepay' },
     { whenInputIs: '', expectedOutputIs: undefined },
     { whenInputIs: 'happy', expectedOutputIs: undefined }
   ];
@@ -100,5 +101,60 @@ describe( 'textNBC()', function () {
     it( 'should return ' + p.expectedOutputIs + ' if the input is ' + JSON.stringify( p.whenInputIs ), function () {
      expect( learnTNBC.predict( p.whenInputIs ) ).to.equal( p.expectedOutputIs );
     } );
+  } );
+} );
+
+describe( 'textNBC() with considerOnlyPresence as undefined', function () {
+  var learnTNBC = tnbc();
+  var examples = [
+    { whenInputIs: [ 'i want to prepay my loan', 'prepay' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i want to close my loan', 'prepay' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i want to foreclose my loan', 'prepay' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i would like to pay the loan balance', 'prepay' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i would like to borrow money to buy a vehice', 'autoloan' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i need loan for car', 'autoloan' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i need loan for a new vehicle', 'autoloan' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i need loan for a new mobike', 'autoloan' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i need money for a new car', 'autoloan' ] , expectedOutputIs: true }
+  ];
+
+  learnTNBC.definePrepTasks( [ prepare.string.tokenize0 ] );
+  examples.forEach( function ( example ) {
+    it( 'should return ' + example.expectedOutputIs + ' if the input is ' + JSON.stringify( example.whenInputIs ), function () {
+      expect( learnTNBC.learn( example.whenInputIs[ 0 ], example.whenInputIs[ 1 ] ) ).to.equal( example.expectedOutputIs );
+    } );
+  } );
+
+  it( 'should return true', function () {
+    expect( learnTNBC.consolidate() ).to.equal( true );
+  } );
+
+  var predict = [
+    { whenInputIs: 'I would like to borrow 50000 to buy a new audi r8 in new york', expectedOutputIs: 'autoloan'  },
+    { whenInputIs: 'I want to pay my car loan early', expectedOutputIs: 'prepay' },
+    { whenInputIs: '', expectedOutputIs: undefined },
+    { whenInputIs: 'happy', expectedOutputIs: undefined }
+  ];
+
+  predict.forEach( function ( p ) {
+    it( 'should return ' + p.expectedOutputIs + ' if the input is ' + JSON.stringify( p.whenInputIs ), function () {
+     expect( learnTNBC.predict( p.whenInputIs ) ).to.equal( p.expectedOutputIs );
+    } );
+  } );
+
+  var stats = {
+        labelWiseSamples: {
+          autoloan: 5,
+          prepay: 4
+        },
+        labelWiseWords: {
+          autoloan: 36,
+          prepay: 26
+        },
+        vocabulary: 24
+      };
+
+  it( 'should return stats if the stats() is called', function () {
+   expect( learnTNBC.stats() ).to.deep.equal( stats );
   } );
 } );
