@@ -220,8 +220,7 @@ var textNBC = function () {
 
   // Consolidates the learnings in following steps:
   // 1. Check presence of minimal learning mass, if present proceed further;
-  // 2. Freeze all relevant JS Objects;
-  // 3. Initializes the confusion matrix and metrices.
+  // 2. Initializes the confusion matrix and metrices.
   var consolidate = function () {
     var row, col;
     var i, j;
@@ -235,10 +234,6 @@ var textNBC = function () {
     if ( voc.size < 10 ) {
       throw Error( 'winkNBTC: vocabulary is too small to learn meaningful classification!' );
     }
-    // Freeze learnings!
-    Object.freeze( samples );
-    Object.freeze( count );
-    Object.freeze( words );
     // Initialize confusion matrix and metrices.
     for ( i = 0; i < labelCount; i += 1 ) {
       row = labels[ i ];
