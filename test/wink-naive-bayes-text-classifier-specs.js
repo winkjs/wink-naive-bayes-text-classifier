@@ -82,9 +82,12 @@ describe( 'textNBC() with considerOnlyPresence as true', function () {
   it( 'definePrepTasks should return 1', function () {
     expect( learnTNBC.definePrepTasks( [ prepare.string.tokenize0 ] ) ).to.equal( 1 );
   } );
+  it( 'defineConfig should return true', function () {
+    expect( learnTNBC.defineConfig( true, 0 ) ).to.equal( true );
+  } );
   examples.forEach( function ( example ) {
     it( 'should return ' + example.expectedOutputIs + ' if the input is ' + JSON.stringify( example.whenInputIs ), function () {
-      expect( learnTNBC.learn( example.whenInputIs[ 0 ], example.whenInputIs[ 1 ], true ) ).to.equal( example.expectedOutputIs );
+      expect( learnTNBC.learn( example.whenInputIs[ 0 ], example.whenInputIs[ 1 ] ) ).to.equal( example.expectedOutputIs );
     } );
   } );
 
@@ -94,6 +97,7 @@ describe( 'textNBC() with considerOnlyPresence as true', function () {
 
   var predict = [
     { whenInputIs: 'I would like to borrow 50000 to buy a new audi r8 in new york', expectedOutputIs: 'autoloan'  },
+    { whenInputIs: 'happy', expectedOutputIs: 'unknown' },
     { whenInputIs: 'I want to pay my car loan early', expectedOutputIs: 'prepay' },
     { whenInputIs: '', expectedOutputIs: 'unknown' },
     { whenInputIs: 'happy', expectedOutputIs: 'unknown' }
@@ -136,9 +140,9 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
 
   var predict = [
     { whenInputIs: 'I would like to borrow 50000 to buy a new audi r8 in new york', expectedOutputIs: 'autoloan'  },
-    { whenInputIs: 'I want to pay my car loan early', expectedOutputIs: 'prepay' },
-    { whenInputIs: '', expectedOutputIs: 'unknown' },
-    { whenInputIs: 'happy', expectedOutputIs: 'unknown' }
+    { whenInputIs: 'I want to pay my car loan early', expectedOutputIs: 'prepay' }
+    // { whenInputIs: '', expectedOutputIs: 'unknown' },
+    // { whenInputIs: 'happy', expectedOutputIs: 'unknown' }
   ];
 
   predict.forEach( function ( p ) {
@@ -184,8 +188,8 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
   var predict = [
     { whenInputIs: 'I would like to borrow 50000 to buy a new audi r8 in new york', expectedOutputIs: 'autoloan'  },
     { whenInputIs: 'I want to pay my car loan early', expectedOutputIs: 'prepay' },
-    { whenInputIs: '', expectedOutputIs: 'unknown' },
-    { whenInputIs: 'happy', expectedOutputIs: 'unknown' }
+    // { whenInputIs: '', expectedOutputIs: 'unknown' },
+    // { whenInputIs: 'happy', expectedOutputIs: 'unknown' }
   ];
   // Test prepTasks definition.
   it( 'definePrepTasks should return 1', function () {
@@ -194,11 +198,20 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
   it( 'definePrepTasks should return 1', function () {
     expect( anotherTNBC.definePrepTasks( [ prepare.string.tokenize0 ] ) ).to.equal( 1 );
   } );
+  it( 'defineConfig should return true', function () {
+    // This will default to false and 0 - the required config - solves dual purpose of testing!
+    expect( learnTNBC.defineConfig( 1, 'x' ) ).to.equal( true );
+  } );
   // Test learn.
   examples.forEach( function ( example ) {
     it( 'learn should return ' + example.expectedOutputIs + ' if the input is ' + JSON.stringify( example.whenInputIs ), function () {
       expect( learnTNBC.learn( example.whenInputIs[ 0 ], example.whenInputIs[ 1 ] ) ).to.equal( example.expectedOutputIs );
     } );
+  } );
+  // Define Config should throw error.
+  it( 'defineConfig should throw error post learning', function () {
+    // This will default to false and 0 - the required config - solves dual purpose of testing!
+    expect( learnTNBC.defineConfig.bind( null, 1, 'x' ) ).to.throw( 'winkNBTC: config must be defined before learning starts!' );
   } );
   // Test consolidation.
   it( 'consolidate should return true', function () {
@@ -234,7 +247,7 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
     expect( anotherTNBC.importJSON.bind( null, JSON.stringify( [ 1, 2 ] ) ) ).to.throw( 'winkNBTC: invalid JSON encountered, can not import.' );
   } );
   it( 'imoprtJSON should throw error when input is an array has wrong elements', function () {
-    expect( anotherTNBC.importJSON.bind( null, JSON.stringify( [ [], {}, [], {} ] ) ) ).to.throw( 'winkNBTC: invalid JSON encountered, can not import.' );
+    expect( anotherTNBC.importJSON.bind( null, JSON.stringify( [ [], {}, [], {}, [] ] ) ) ).to.throw( 'winkNBTC: invalid JSON encountered, can not import.' );
   } );
   it( 'imoprtJSON should return an true on valid JSON input', function () {
     expect( anotherTNBC.importJSON( json ) ).to.equal( true );
@@ -276,6 +289,7 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
   it( 'evaluate should throw error with unknown label', function () {
     expect( anotherTNBC.evaluate.bind( null, 'some funny input', 'fun' ) ).to.throw( 'winkNBTC: can not evaluate, unknown label enountered: "fun"' );
   } );
+  // ***
   it( 'evaluate should return false with unknown vocab inputs', function () {
     expect( anotherTNBC.evaluate( 'some funny input', 'prepay' ) ).to.equal( false );
   } );

@@ -31,18 +31,19 @@ var helpers = require( 'wink-helpers' );
 // It exposes following methods:
 // 1. `definePrepTasks` allows to define a pipeline of functions that will be
 // used to prepare each input prior to *learning*, *prediction*, and *evaluation*.
-// 2. `learn` from example *input* and *label* pair(s).
-// 3. `consolidate` learnings prior to evaluation and/or prediction.
-// 4. `predict` the best *label* for the given *input*.
-// 5. `stats` of learnings.
-// 6. `exportJSON` exports the learnings in JSON format.
-// 7. `importJSON` imports the learnings from JSON that may have been saved on disk.
-// 8. `evaluate` the learnings from known examples of *input* and corresponding
+// 2. `defineConfig` sets up the configuration for *mode* and *smoothing factor*.
+// 3. `learn` from example *input* and *label* pair(s).
+// 4. `consolidate` learnings prior to evaluation and/or prediction.
+// 5. `predict` the best *label* for the given *input*.
+// 6. `stats` of learnings.
+// 7. `exportJSON` exports the learnings in JSON format.
+// 8. `importJSON` imports the learnings from JSON that may have been saved on disk.
+// 9. `evaluate` the learnings from known examples of *input* and corresponding
 // *label* by internally building a confusion matrix.
-// 9. `metrices` are primarily macro-averages of *precison*, *recall*,
+// 10. `metrices` are primarily macro-averages of *precison*, *recall*,
 // and *f-measure* computed from the confusion matrix built during the evaluation
 // phase.
-// 10. `reset` all the learnings except the preparatory tasks; useful during
+// 11. `reset` all the learnings except the preparatory tasks; useful during
 // cross-validation.
 var textNBC = function () {
   // Total samples encountered under each label during learning.
@@ -61,6 +62,8 @@ var textNBC = function () {
   var labels;
   // And their count: meant to be used in for-loops.
   var labelCount;
+  // The `defineConfig()` checks this before latering config.
+  var learned = false;
   // The `predict()` function checks for this being true; set in `consolidate()`.
   var consolidated = false;
   // The `metrices()` checks this; set in `evaluate()`.
@@ -75,6 +78,12 @@ var textNBC = function () {
   var methods = Object.create( null );
   // Define unknown prediction.
   var unknown = 'unknown';
+  // Configuration - `considerOnlyPresence` flag and `smoothingFactor`.
+  var config = Object.create( null );
+  // Set their default values.
+  config.considerOnlyPresence = false;
+  config.smoothingFactor = 0.5;
+
   // ### Private functions
 
   // #### Prepare Input
@@ -94,9 +103,12 @@ var textNBC = function () {
   // Computes the 1+ smoothed log likelihood `( w | label )`.
   var logLikelihood = function ( w, label ) {
     return (
-      ( voc.has( w ) ) ?
-        Math.log2( ( ( count[ label ][ w ] || 0 ) + 1 ) / ( words[ label ] + voc.size ) ) :
-        0
+      ( config.smoothingFactor > 0 ) ?
+        Math.log2( ( ( count[ label ][ w ] || 0 ) + config.smoothingFactor ) /
+                ( words[ label ] + ( voc.size * config.smoothingFactor ) ) ) :
+        voc.has( w ) ?  Math.log2( ( ( count[ label ][ w ] || 0 ) + 1 ) /
+                ( words[ label ] + voc.size ) ) :
+                0
     );
   }; // logLikelihood()
 
@@ -121,7 +133,8 @@ var textNBC = function () {
     // No need to perform `voc.has( w )` check as `odds()` will not call the
     // `inverseLogLikelihood()` if `logLikelihood()` returns a **0**. It does
     // so to avoid recomputation.
-    return ( Math.log2( ( clw + 1 ) / ( wl + voc.size ) ) );
+    return ( Math.log2( ( clw + ( config.smoothingFactor || 1 ) ) /
+              ( wl + ( voc.size * ( config.smoothingFactor || 1 ) ) ) ) );
 
   }; // inverseLogLikelihood()
 
@@ -169,14 +182,35 @@ var textNBC = function () {
 
   // ### Exposed Functions
 
+  // #### Define Config
+
+  // Defines the `considerOnlyPresence` and `smoothingFactor` parameters. The
+  // `considerOnlyPresence` is a boolean parameter. An incorrect value is
+  // forced to `false`. Setting `considerOnlyPresence` to `true` ignores
+  //  the frequency of each token and instead only considers it's presence.
+  // The `smoothingFactor` can have any value between 0 and 1. If the input
+  // value > 1 can have any value between 0 and 1. If the input value > 1
+  // then it is set to **1** and if it is <0 then it is set to **0**.
+  // The config can not be set once the learning has started.
+  var defineConfig = function ( considerOnlyPresence, smoothingFactor ) {
+    if ( learned ) {
+      throw Error( 'winkNBTC: config must be defined before learning starts!' );
+    }
+    config.considerOnlyPresence = ( typeof considerOnlyPresence === 'boolean' ) ?
+                                    considerOnlyPresence : false;
+    config.smoothingFactor = ( isNaN( smoothingFactor ) ) ?
+            0 : Math.max( Math.min( smoothingFactor, 1 ), 0 );
+    return true;
+  }; // defineConfig()
+
   // #### Define Prep Tasks
 
   // Defines the `tasks` required to prepare the input for `learn()` and `predict()`
   // The `tasks` should be an array of functions; using these function a simple
   // pipeline is built to serially transform the input to the output.
   // It validates the `tasks` before updating the `pTasks`.
-  // If validation fails it returns `false`; otherwise it sets the
-  // `pTasks` and returns `true`.
+  // If validation fails it throws error; otherwise it sets the
+  // `pTasks` and returns length of `pTask` array.
   var definePrepTasks = function ( tasks ) {
     if ( !helpers.array.isArray( tasks ) ) {
       throw Error( 'winkNBTC: tasks should be an array, instead found: ' + JSON.stringify( tasks ) );
@@ -193,20 +227,21 @@ var textNBC = function () {
 
   // #### Learn
 
-  // Learns from example pair of `input` and `label`. Setting
-  // `considerOnlyPresence` to `true` ignores the frequency of each token and
-  // instead only considers it's presence. It's default value is `false`.
-  // If learning was successful then it returns `true`; otherwise it returns `false`.
-  var learn = function ( input, label, considerOnlyPresence ) {
+  // Learns from example pair of `input` and `label`. It throws error if
+  // consolidation has already been carried out.
+  // If learning was successful then it returns `true`.
+  var learn = function ( input, label ) {
     // No point in learning further, if learnings so far have been consolidated.
     if ( consolidated ) {
       throw Error( 'winkNBTC: post consolidation learning is not possible!' );
     }
+    // Set learning started.
+    learned = true;
     // Prepare the input.
     var tkns = prepareInput( input );
     // Update vocubulary, count, and words i.e. learn!
     samples[ label ] = 1 + ( samples[ label ] || 0 );
-    if ( considerOnlyPresence ) tkns = new Set( tkns );
+    if ( config.considerOnlyPresence ) tkns = new Set( tkns );
     count[ label ] = count[ label ] || Object.create( null );
     tkns.forEach( function ( token ) {
       count[ label ][ token ] = 1 + ( count[ label ][ token ] || 0 );
@@ -220,6 +255,7 @@ var textNBC = function () {
 
   // Consolidates the learnings in following steps:
   // 1. Check presence of minimal learning mass, if present proceed further;
+  // otherwise it throws appropriate error.
   // 2. Initializes the confusion matrix and metrices.
   var consolidate = function () {
     var row, col;
@@ -255,7 +291,8 @@ var textNBC = function () {
 
   // Predicts the potential **label** for the given `input`, provided learnings
   // have been consolidated. If all the `input` tokens have never been seen
-  // in past (i.e. absent in learnings), then the predicted label is `undefined`.
+  // in past (i.e. absent in learnings), then the predicted label is `unknown`.
+  // It throws error if the learnings have not been consolidated.
   var predict = function ( input ) {
     // Predict only if learnings have been consolidated!
     if ( !consolidated ) {
@@ -271,7 +308,7 @@ var textNBC = function () {
     }
     // Sort descending for argmax.
     allOdds.sort( helpers.array.descendingOnValue );
-    // If odds for the top label is 0 means prediction is `undefined`
+    // If odds for the top label is 0 means prediction is `unknown`
     // otherwise return the corresponding label.
     return ( ( allOdds[ 0 ][ 1 ] ) ? allOdds[ 0 ][ 0 ] : unknown );
   };
@@ -302,20 +339,45 @@ var textNBC = function () {
     voc.forEach( function ( e ) {
       vocArray.push( e );
     } );
-    return ( JSON.stringify( [ samples, count, words, vocArray ] ) );
+    return ( JSON.stringify( [ config, samples, count, words, vocArray ] ) );
   }; // exportJSON()
+
+  // #### Reset
+
+  // Resets the classifier completely by re-initializing all the learning
+  // related variables, except the preparatory tasks. Useful during cross-
+  // validation.
+  var reset = function () {
+    // Reset values of variables that are associated with learning; Therefore
+    // `pTasks` & `pTaskCount` are not re-initialized.
+    samples = Object.create( null );
+    count = Object.create( null );
+    words = Object.create( null );
+    voc = new Set();
+    labels = null;
+    labelCount = 0;
+    learned = false;
+    consolidated = false;
+    evaluated = false;
+    cm = Object.create( null );
+    precision = Object.create( null );
+    recall = Object.create( null );
+    fmeasure = Object.create( null );
+    return true;
+  }; // reset()
 
   // #### Import JSON
 
   // Imports the `json` in to learnings after validating the format of input JSON.
-  // If validation fails then it returns `false`; otherwise on success import it
-  // returns `true`.
+  // If validation fails then throws error; otherwise on success import it
+  // returns `true`. Note, importing leads to resetting the classifier.
   var importJSON = function ( json ) {
     if ( !json ) {
       throw Error( 'winkNBTC: undefined or null JSON encountered, import failed!' );
     }
     // Validate json format
     var isOK = [
+      helpers.object.isObject,
       helpers.object.isObject,
       helpers.object.isObject,
       helpers.object.isObject,
@@ -331,10 +393,17 @@ var textNBC = function () {
       }
     }
     // All good, setup variable values.
-    samples = parsedJSON[ 0 ];
-    count = parsedJSON[ 1 ];
-    words = parsedJSON[ 2 ];
-    voc = new Set( parsedJSON[ 3 ] );
+    // First reset everything.
+    reset();
+    // To prevent config change.
+    learned = true;
+    // Load variable values.
+    config = parsedJSON[ 0 ];
+    samples = parsedJSON[ 1 ];
+    count = parsedJSON[ 2 ];
+    words = parsedJSON[ 3 ];
+    // Vocabulary is a set!
+    voc = new Set( parsedJSON[ 4 ] );
     // Return success.
     return true;
   }; // importJSON()
@@ -342,8 +411,9 @@ var textNBC = function () {
   // #### Evaluate
 
   // Evaluates the prediction using the `input` and its known `label`. It
-  // accordingly updates the confusion matrix. If the `label` is unknown or
-  // prediction fails (no consolidation or `undefined`), it does not uppdate
+  // accordingly updates the confusion matrix. If the `label` is unknown
+  // then it throws error; errors may be thrown by the `predict()`. If
+  // prediction fails (nunknown), then it does not uppdate
   // the confusion matrix and returns `false`; otherwise it updates the matrix
   // and returns `true`.
   var evaluate = function ( input, label ) {
@@ -367,7 +437,7 @@ var textNBC = function () {
   // #### Metrices
 
   // Computes the metrices from the confusion matrix built during the evaluation
-  // phase via `evaluate()`. In absence of evaluations, it returns `null`; otherwise
+  // phase via `evaluate()`. In absence of evaluations, it throws error; otherwise
   // it returns an object containing summary metrices along with the details.
   var metrices = function () {
     if ( !evaluated ) {
@@ -436,35 +506,13 @@ var textNBC = function () {
     );
   }; // metrices()
 
-  // #### Reset
-
-  // Resets the classifier completely by re-initializing all the learning
-  // related variables, except the preparatory tasks. Useful during cross-
-  // validation.
-  // > REVIEW: Impact of re-initialization on frozed objects.
-  var reset = function () {
-    // Reset values of variables that are associated with learning; Therefore
-    // `pTasks` & `pTaskCount` are not re-initialized.
-    samples = Object.create( null );
-    count = Object.create( null );
-    words = Object.create( null );
-    voc = new Set();
-    labels = null;
-    labelCount = 0;
-    consolidated = false;
-    evaluated = false;
-    cm = Object.create( null );
-    precision = Object.create( null );
-    recall = Object.create( null );
-    fmeasure = Object.create( null );
-    return true;
-  }; // reset()
 
   methods.learn = learn;
   methods.consolidate = consolidate;
   methods.predict = predict;
   methods.stats = stats;
   methods.definePrepTasks = definePrepTasks;
+  methods.defineConfig = defineConfig;
   methods.evaluate = evaluate;
   methods.metrices = metrices;
   methods.exportJSON = exportJSON;
