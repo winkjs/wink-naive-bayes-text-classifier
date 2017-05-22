@@ -37,16 +37,16 @@ nbc.definePrepTasks( [
 // Configure behavior
 nbc.defineConfig( { considerOnlyPresence: true, smoothingFactor: 0.5 } );
 // Train!
-nbc.learn( 'I want to prepay my loan', 'prepay', true );
-nbc.learn( 'I want to close my loan', 'prepay', true );
-nbc.learn( 'I want to foreclose my loan', 'prepay', true );
-nbc.learn( 'I would like to pay the loan balance', 'prepay', true );
+nbc.learn( 'I want to prepay my loan', 'prepay' );
+nbc.learn( 'I want to close my loan', 'prepay' );
+nbc.learn( 'I want to foreclose my loan', 'prepay' );
+nbc.learn( 'I would like to pay the loan balance', 'prepay' );
 
-nbc.learn( 'I would like to borrow money to buy a vehicle', 'autoloan', true );
-nbc.learn( 'I need loan for car', 'autoloan', true );
-nbc.learn( 'I need loan for a new vehicle', 'autoloan', true );
-nbc.learn( 'I need loan for a new mobike', 'autoloan', true );
-nbc.learn( 'I need money for a new car', 'autoloan', true );
+nbc.learn( 'I would like to borrow money to buy a vehicle', 'autoloan' );
+nbc.learn( 'I need loan for car', 'autoloan' );
+nbc.learn( 'I need loan for a new vehicle', 'autoloan' );
+nbc.learn( 'I need loan for a new mobike', 'autoloan' );
+nbc.learn( 'I need money for a new car', 'autoloan' );
 // Consolidate all the training!!
 nbc.consolidate();
 // Start predicting...
