@@ -100,8 +100,13 @@ var textNBC = function () {
 
   // #### Log Likelihood
 
-  // Computes the 1+ smoothed log likelihood `( w | label )`.
+  // Computes the pre-definable smoothed log likelihood `( w | label )`.
   var logLikelihood = function ( w, label ) {
+    // If there is a **non-zero** `smoothingFactor`, then use the regular
+    // formula for computation. When it is **0**, in that case if the `w`
+    // is not found in vocabulary, return 0; otherwise perform add-1.
+    // Note, a 0 `smoothingFactor` can lead to `unknown` prediction if non-zero
+    // of the words are found in the vocabulary.
     return (
       ( config.smoothingFactor > 0 ) ?
         Math.log2( ( ( count[ label ][ w ] || 0 ) + config.smoothingFactor ) /
@@ -132,7 +137,7 @@ var textNBC = function () {
     }
     // No need to perform `voc.has( w )` check as `odds()` will not call the
     // `inverseLogLikelihood()` if `logLikelihood()` returns a **0**. It does
-    // so to avoid recomputation.
+    // so to avoid recomputation. See comments in `logLikelihood()`.
     return ( Math.log2( ( clw + ( config.smoothingFactor || 1 ) ) /
               ( wl + ( voc.size * ( config.smoothingFactor || 1 ) ) ) ) );
 
