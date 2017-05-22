@@ -83,7 +83,10 @@ describe( 'textNBC() with considerOnlyPresence as true', function () {
     expect( learnTNBC.definePrepTasks( [ prepare.string.tokenize0 ] ) ).to.equal( 1 );
   } );
   it( 'defineConfig should return true', function () {
-    expect( learnTNBC.defineConfig( true, 0 ) ).to.equal( true );
+    expect( learnTNBC.defineConfig.bind( null, 1 ) ).to.throw( 'winkNBTC: config must be an object, instead found: number' );
+  } );
+  it( 'defineConfig should return true', function () {
+    expect( learnTNBC.defineConfig( { considerOnlyPresence: true, smoothingFactor: 0 } ) ).to.equal( true );
   } );
   examples.forEach( function ( example ) {
     it( 'should return ' + example.expectedOutputIs + ' if the input is ' + JSON.stringify( example.whenInputIs ), function () {
@@ -200,7 +203,7 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
   } );
   it( 'defineConfig should return true', function () {
     // This will default to false and 0 - the required config - solves dual purpose of testing!
-    expect( learnTNBC.defineConfig( 1, 'x' ) ).to.equal( true );
+    expect( learnTNBC.defineConfig( { considerOnlyPresence: 1, smoothingFactor: 'x' } ) ).to.equal( true );
   } );
   // Test learn.
   examples.forEach( function ( example ) {
@@ -211,7 +214,7 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
   // Define Config should throw error.
   it( 'defineConfig should throw error post learning', function () {
     // This will default to false and 0 - the required config - solves dual purpose of testing!
-    expect( learnTNBC.defineConfig.bind( null, 1, 'x' ) ).to.throw( 'winkNBTC: config must be defined before learning starts!' );
+    expect( learnTNBC.defineConfig.bind( null, { considerOnlyPresence: 1, smoothingFactor: 'x' } ) ).to.throw( 'winkNBTC: config must be defined before learning starts!' );
   } );
   // Test consolidation.
   it( 'consolidate should return true', function () {

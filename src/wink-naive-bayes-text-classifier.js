@@ -197,14 +197,17 @@ var textNBC = function () {
   // value > 1 can have any value between 0 and 1. If the input value > 1
   // then it is set to **1** and if it is <0 then it is set to **0**.
   // The config can not be set once the learning has started.
-  var defineConfig = function ( considerOnlyPresence, smoothingFactor ) {
+  var defineConfig = function ( cfg ) {
     if ( learned ) {
       throw Error( 'winkNBTC: config must be defined before learning starts!' );
     }
-    config.considerOnlyPresence = ( typeof considerOnlyPresence === 'boolean' ) ?
-                                    considerOnlyPresence : false;
-    config.smoothingFactor = ( isNaN( smoothingFactor ) ) ?
-            0 : Math.max( Math.min( smoothingFactor, 1 ), 0 );
+    if ( !helpers.object.isObject( cfg ) ) {
+      throw Error( 'winkNBTC: config must be an object, instead found: ' + ( typeof cfg ) );
+    }
+    config.considerOnlyPresence = ( typeof cfg.considerOnlyPresence === 'boolean' ) ?
+                                    cfg.considerOnlyPresence : false;
+    config.smoothingFactor = ( isNaN( cfg.smoothingFactor ) ) ?
+            0 : Math.max( Math.min( cfg.smoothingFactor, 1 ), 0 );
     return true;
   }; // defineConfig()
 

@@ -9,7 +9,7 @@
 
 **wink-naive-bayes-text-classifier** is a part of **[wink](https://www.npmjs.com/~sanjaya)**, which is a family of Machine Learning NPM packages. They consist of simple and/or higher order functions that can be combined with NodeJS `stream` and `child processes` to create recipes for analytics driven business solutions.
 
-Classify text, analyse sentiments using wink-naive-bayes-text-classifier, which inherently supports cross validation.
+Easily classify text, analyse sentiments, recognize intents using wink-naive-bayes-text-classifier.
 
 ## Installation
 Use **[npm](https://www.npmjs.com/package/wink-naive-bayes-text-classifier)** to install:
@@ -23,29 +23,34 @@ npm install wink-naive-bayes-text-classifier --save
 
 // Load Naive Bayes Text Classifier
 var nbc = require( 'wink-naive-bayes-text-classifier' )();
+// Load NLP utilities
 var nlp = require( 'wink-nlp-utils' );
-
-// Setup preparation tasks
+// Configure preparation tasks
 nbc.definePrepTasks( [
+  // Simple tokenizer
   nlp.string.tokenize0,
+  // Common Stop Words Remover
   nlp.tokens.removeWords,
+  // Stemmer to obtain base word
   nlp.tokens.stem
 ] );
+// Configure behavior
+nbc.defineConfig( { considerOnlyPresence: true, smoothingFactor: 0.5 } );
 // Train!
-nbc.learn( 'i want to prepay my loan', 'prepay', true );
-nbc.learn( 'i want to close my loan', 'prepay', true );
-nbc.learn( 'i want to foreclose my loan', 'prepay', true );
-nbc.learn( 'i would like to pay the loan balance', 'prepay', true );
+nbc.learn( 'I want to prepay my loan', 'prepay', true );
+nbc.learn( 'I want to close my loan', 'prepay', true );
+nbc.learn( 'I want to foreclose my loan', 'prepay', true );
+nbc.learn( 'I would like to pay the loan balance', 'prepay', true );
 
-nbc.learn( 'i would like to borrow money to buy a vehice', 'autoloan', true );
-nbc.learn( 'i need loan for car', 'autoloan', true );
-nbc.learn( 'i need loan for a new vehicle', 'autoloan', true );
-nbc.learn( 'i need loan for a new mobike', 'autoloan', true );
-nbc.learn( 'i need money for a new car', 'autoloan', true );
+nbc.learn( 'I would like to borrow money to buy a vehicle', 'autoloan', true );
+nbc.learn( 'I need loan for car', 'autoloan', true );
+nbc.learn( 'I need loan for a new vehicle', 'autoloan', true );
+nbc.learn( 'I need loan for a new mobike', 'autoloan', true );
+nbc.learn( 'I need money for a new car', 'autoloan', true );
 // Consolidate all the training!!
 nbc.consolidate();
 // Start predicting...
-console.log( nbc.predict( 'I would like to borrow 50000 to buy a new audi r8 in new york' ) );
+console.log( nbc.predict( 'I would like to borrow 50000 to buy a new Audi R8 in New York' ) );
 // -> autoloan
 console.log( nbc.predict( 'I want to pay my car loan early' ) );
 // -> prepay
