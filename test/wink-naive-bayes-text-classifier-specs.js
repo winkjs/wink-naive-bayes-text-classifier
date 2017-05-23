@@ -284,9 +284,9 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
       expect( anotherTNBC.learn.bind( null, example.whenInputIs[ 0 ], example.whenInputIs[ 1 ] ) ).to.throw( 'winkNBTC: post consolidation learning is not possible!' );
     } );
   } );
-  // Test metrices.
-  it( 'metrices should throw error without evaluation', function () {
-    expect( anotherTNBC.metrices.bind( null ) ).to.throw( 'winkNBTC: metrices can not be computed before evaluation.' );
+  // Test metrics.
+  it( 'metrics should throw error without evaluation', function () {
+    expect( anotherTNBC.metrics.bind( null ) ).to.throw( 'winkNBTC: metrics can not be computed before evaluation.' );
   } );
   // Now evaluate; partial not for all labels
   it( 'evaluate should throw error with unknown label', function () {
@@ -299,9 +299,9 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
   it( 'evaluate should return true with proper inputs', function () {
     expect( anotherTNBC.evaluate( 'can i close my loan', 'prepay' ) ).to.equal( true );
   } );
-  // Test metrices.
-  it( 'metrices should throw error without evaluation', function () {
-    expect( Object.keys( anotherTNBC.metrices( ) ).length ).to.equal( 4 );
+  // Test metrics.
+  it( 'metrics should throw error without evaluation', function () {
+    expect( Object.keys( anotherTNBC.metrics( ) ).length ).to.equal( 4 );
   } );
   // More evaluation - complete it now.
   it( 'evaluate should return true with proper inputs', function () {
@@ -310,9 +310,9 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
   it( 'evaluate should return true with proper inputs', function () {
     expect( anotherTNBC.evaluate( 'i need to buy a car on loan', 'autoloan' ) ).to.equal( true );
   } );
-  // Test metrices.
-  it( 'metrices should throw error without evaluation', function () {
-    expect( Object.keys( anotherTNBC.metrices( ) ).length ).to.equal( 4 );
+  // Test metrics.
+  it( 'metrics should throw error without evaluation', function () {
+    expect( Object.keys( anotherTNBC.metrics( ) ).length ).to.equal( 4 );
   } );
   // Small vocal/labels test
   it( 'reset should return true', function () {

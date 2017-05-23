@@ -40,7 +40,7 @@ var helpers = require( 'wink-helpers' );
 // 8. `importJSON` imports the learnings from JSON that may have been saved on disk.
 // 9. `evaluate` the learnings from known examples of *input* and corresponding
 // *label* by internally building a confusion matrix.
-// 10. `metrices` are primarily macro-averages of *precison*, *recall*,
+// 10. `metrics` are primarily macro-averages of *precison*, *recall*,
 // and *f-measure* computed from the confusion matrix built during the evaluation
 // phase.
 // 11. `reset` all the learnings except the preparatory tasks; useful during
@@ -66,11 +66,11 @@ var textNBC = function () {
   var learned = false;
   // The `predict()` function checks for this being true; set in `consolidate()`.
   var consolidated = false;
-  // The `metrices()` checks this; set in `evaluate()`.
+  // The `metrics()` checks this; set in `evaluate()`.
   var evaluated = false;
   // Confusion Matrix.
   var cm = Object.create( null );
-  // Metrices: Precision, Recall, and F-Measure
+  // metrics: Precision, Recall, and F-Measure
   var precision = Object.create( null );
   var recall = Object.create( null );
   var fmeasure = Object.create( null );
@@ -264,7 +264,7 @@ var textNBC = function () {
   // Consolidates the learnings in following steps:
   // 1. Check presence of minimal learning mass, if present proceed further;
   // otherwise it throws appropriate error.
-  // 2. Initializes the confusion matrix and metrices.
+  // 2. Initializes the confusion matrix and metrics.
   var consolidate = function () {
     var row, col;
     var i, j;
@@ -278,7 +278,7 @@ var textNBC = function () {
     if ( voc.size < 10 ) {
       throw Error( 'winkNBTC: vocabulary is too small to learn meaningful classification!' );
     }
-    // Initialize confusion matrix and metrices.
+    // Initialize confusion matrix and metrics.
     for ( i = 0; i < labelCount; i += 1 ) {
       row = labels[ i ];
       cm[ row ] = Object.create( null );
@@ -442,14 +442,14 @@ var textNBC = function () {
     return true;
   }; // evaluate()
 
-  // #### Metrices
+  // #### metrics
 
-  // Computes the metrices from the confusion matrix built during the evaluation
+  // Computes the metrics from the confusion matrix built during the evaluation
   // phase via `evaluate()`. In absence of evaluations, it throws error; otherwise
-  // it returns an object containing summary metrices along with the details.
-  var metrices = function () {
+  // it returns an object containing summary metrics along with the details.
+  var metrics = function () {
     if ( !evaluated ) {
-      throw Error( 'winkNBTC: metrices can not be computed before evaluation.' );
+      throw Error( 'winkNBTC: metrics can not be computed before evaluation.' );
     }
     // Numerators for every label; they are same for precision & recall both.
     var n = Object.create( null );
@@ -459,7 +459,7 @@ var textNBC = function () {
     // `row` and `col` of confusion matrix.
     var row, col;
     var i, j;
-    // Macro average values for metrices.
+    // Macro average values for metrics.
     var avgPrecision = 0;
     var avgRecall = 0;
     var avgFMeasure = 0;
@@ -476,7 +476,7 @@ var textNBC = function () {
         rd[ row ] = cm[ col ][ row ] + ( rd[ row ] || 0 );
       }
     }
-    // Ready to compute metrices.
+    // Ready to compute metrics.
     for ( i = 0; i < labelCount; i += 1 ) {
       row = labels[ i ];
       precision[ row ] = +( n[ row ] / pd[ row ] ).toFixed( 4 );
@@ -495,24 +495,24 @@ var textNBC = function () {
       avgRecall += ( recall[ labels[ i ] ] / labelCount );
       avgFMeasure += ( fmeasure[ labels[ i ] ] / labelCount );
     }
-    // Return metrices.
+    // Return metrics.
     return (
       {
-        // Macro-averaged metrices.
+        // Macro-averaged metrics.
         avgPrecision: +avgPrecision.toFixed( 4 ),
         avgRecall: +avgRecall.toFixed( 4 ),
         avgFMeasure: +avgFMeasure.toFixed( 4 ),
         details: {
           // Confusion Matrix.
           confusionMatrix: cm,
-          // Label wise metrices details, from those averages were computed.
+          // Label wise metrics details, from those averages were computed.
           precision: precision,
           recall: recall,
           fmeasure: fmeasure
         }
       }
     );
-  }; // metrices()
+  }; // metrics()
 
 
   methods.learn = learn;
@@ -522,7 +522,7 @@ var textNBC = function () {
   methods.definePrepTasks = definePrepTasks;
   methods.defineConfig = defineConfig;
   methods.evaluate = evaluate;
-  methods.metrices = metrices;
+  methods.metrics = metrics;
   methods.exportJSON = exportJSON;
   methods.importJSON = importJSON;
   methods.reset = reset;

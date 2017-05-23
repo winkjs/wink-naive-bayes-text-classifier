@@ -9,14 +9,14 @@
 
 **wink-naive-bayes-text-classifier** is a part of **[wink](https://www.npmjs.com/~sanjaya)**, which is a family of Machine Learning NPM packages. They consist of simple and/or higher order functions that can be combined with NodeJS `stream` and `child processes` to create recipes for analytics driven business solutions.
 
-Easily classify text, analyse sentiments, recognize intents using **wink-naive-bayes-text-classifier**. It's APIs offer a set of powerful features:
+Easily classify text, analyse sentiments, recognize intents using **wink-naive-bayes-text-classifier**. It's API offers a rich set of features:
 
 1. Configure text preparation task such as **amplify negation**, **tokenize**, **stem**, **remove stop words**, and **propagate negation** using [wink-nlp-utils](https://www.npmjs.com/package/wink-nlp-utils) or any other package of your choice.
 2. Configure **Lidstone** or **Lapalce** additive smoothing.
-3. Configure **Multinomial** or **Multi-variate Bernoulli** Naive Bayes model.
+3. Configure **Multinomial** or **Binarized Multinomial** Naive Bayes model.
 4. Export and import learnings in JSON format that can be easily saved on hard-disk.
 5. Evaluate learning to perform n-fold cross validation.
-6. Obtain comprehensive metrices including **confusion matrix**, **precision**, and **recall**.
+6. Obtain comprehensive metrics including **confusion matrix**, **precision**, and **recall**.
 
 ## Installation
 Use **[npm](https://www.npmjs.com/package/wink-naive-bayes-text-classifier)** to install:
