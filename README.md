@@ -3,7 +3,7 @@
 
 > Configurable [Naive Bayes](https://en.wikipedia.org/wiki/Naive_Bayes_classifier) Classifier for text with cross-validation support
 
-### [![Build Status](https://api.travis-ci.org/decisively/wink-naive-bayes-text-classifier.svg?branch=master)](https://travis-ci.org/decisively/wink-naive-bayes-text-classifier) [![Coverage Status](https://coveralls.io/repos/github/decisively/wink-naive-bayes-text-classifier/badge.svg?branch=master)](https://coveralls.io/github/decisively/wink-naive-bayes-text-classifier?branch=master)
+### [![Build Status](https://api.travis-ci.org/decisively/wink-naive-bayes-text-classifier.svg?branch=master)](https://travis-ci.org/decisively/wink-naive-bayes-text-classifier) [![Coverage Status](https://coveralls.io/repos/github/decisively/wink-naive-bayes-text-classifier/badge.svg?branch=master)](https://coveralls.io/github/decisively/wink-naive-bayes-text-classifier?branch=master) [![dependencies Status](https://david-dm.org/decisively/wink-naive-bayes-text-classifier/status.svg)](https://david-dm.org/decisively/wink-naive-bayes-text-classifier) [![devDependencies Status](https://david-dm.org/decisively/wink-naive-bayes-text-classifier/dev-status.svg)](https://david-dm.org/decisively/wink-naive-bayes-text-classifier?type=dev)
 
 <img align="right" src="https://decisively.github.io/wink-logos/logo-title.png" width="100px" >
 
