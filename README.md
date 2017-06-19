@@ -92,7 +92,20 @@ It is used to evaluate the learning against a test data set. The `input` is used
 It computes a detailed metrics consisting of macro-averaged *precision*, *recall* and *f-measure* along with their label-wise values and the *confusion matrix*.
 
 #### predict( input )
-Predicts the label for the `input`.
+Predicts the label for the `input`. If it is unable to predict then it returns a value **`'unknown'`**.
+
+#### computeOdds( input )
+Computes the log base-2 of odds of every label for the `input`; and returns the array of `[ label, odds ]` in descending
+order of `odds`. Here is an example of the returned array:
+
+```javascript
+[
+  [ 'prepay', 12.052329801050742 ],
+  [ 'autoloan', -0.5258305619141836 ]
+]
+```
+
+If it is unable to make prediction then it returns a value **`[ [ 'unknown', 0 ] ]`**.
 
 #### exportJSON()
 The learning can be exported as JSON text that may be saved in a file.

@@ -295,13 +295,13 @@ var textNBC = function () {
     return true;
   }; // consolidate()
 
-  // #### Predict
+  // #### compute odds
 
-  // Predicts the potential **label** for the given `input`, provided learnings
-  // have been consolidated. If all the `input` tokens have never been seen
-  // in past (i.e. absent in learnings), then the predicted label is `unknown`.
-  // It throws error if the learnings have not been consolidated.
-  var predict = function ( input ) {
+  // Computes odds for every **label** for the given `input`, provided learnings
+  // have been consolidated. They are sorted in descending order of their odds.
+  // It throws error if the learnings have not been consolidated. Note, the odds
+  // is actually the **log2** of odds.
+  var computeOdds = function ( input ) {
     // Predict only if learnings have been consolidated!
     if ( !consolidated ) {
       throw Error( 'winkNBTC: prediction is not possible unless learnings are consolidated!' );
@@ -318,7 +318,19 @@ var textNBC = function () {
     allOdds.sort( helpers.array.descendingOnValue );
     // If odds for the top label is 0 means prediction is `unknown`
     // otherwise return the corresponding label.
-    return ( ( allOdds[ 0 ][ 1 ] ) ? allOdds[ 0 ][ 0 ] : unknown );
+    return ( ( allOdds[ 0 ][ 1 ] ) ? allOdds : [ [ unknown, 0 ] ] );
+  };
+
+  // #### Predict
+
+  // Predicts the potential **label** for the given `input`, provided learnings
+  // have been consolidated. If all the `input` tokens have never been seen
+  // in past (i.e. absent in learnings), then the predicted label is `unknown`.
+  // It throws error if the learnings have not been consolidated.
+  var predict = function ( input ) {
+    // Contains label & the corresponding odds pairs.
+    var allOdds = computeOdds( input );
+    return ( allOdds[ 0 ][ 0 ] );
   };
 
   // #### Stats
@@ -517,6 +529,7 @@ var textNBC = function () {
 
   methods.learn = learn;
   methods.consolidate = consolidate;
+  methods.computeOdds = computeOdds;
   methods.predict = predict;
   methods.stats = stats;
   methods.definePrepTasks = definePrepTasks;

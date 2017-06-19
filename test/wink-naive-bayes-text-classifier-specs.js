@@ -111,6 +111,19 @@ describe( 'textNBC() with considerOnlyPresence as true', function () {
      expect( learnTNBC.predict( p.whenInputIs ) ).to.equal( p.expectedOutputIs );
     } );
   } );
+
+  var odds = [
+    { whenInputIs: 'I would like to borrow 50000 to buy a new audi r8 in new york', expectedOutputIs: [ [ 'autoloan', 32.07019921258957 ], [ 'prepay', 25.562296983093262 ] ]  },
+    { whenInputIs: 'happy', expectedOutputIs: [ [ 'unknown', 0 ] ] },
+    { whenInputIs: 'I want to pay my car loan early', expectedOutputIs: [ [ 'prepay', 12.052329801050742 ], [ 'autoloan', -0.5258305619141836 ] ] },
+    { whenInputIs: '', expectedOutputIs: [ [ 'unknown', 0 ] ] },
+    { whenInputIs: 'happy', expectedOutputIs: [ [ 'unknown', 0 ] ] }
+  ];
+  odds.forEach( function ( p ) {
+    it( 'should return ' + p.expectedOutputIs + ' if the input is ' + JSON.stringify( p.whenInputIs ), function () {
+     expect( learnTNBC.computeOdds( p.whenInputIs ) ).to.deep.equal( p.expectedOutputIs );
+    } );
+  } );
 } );
 
 describe( 'textNBC() with considerOnlyPresence as undefined', function () {
