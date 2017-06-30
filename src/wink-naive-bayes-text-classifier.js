@@ -109,10 +109,10 @@ var textNBC = function () {
     // of the words are found in the vocabulary.
     return (
       ( config.smoothingFactor > 0 ) ?
-        Math.log2( ( ( count[ label ][ w ] || 0 ) + config.smoothingFactor ) /
-                ( words[ label ] + ( voc.size * config.smoothingFactor ) ) ) :
-        voc.has( w ) ?  Math.log2( ( ( count[ label ][ w ] || 0 ) + 1 ) /
-                ( words[ label ] + voc.size ) ) :
+        ( Math.log2( ( ( count[ label ][ w ] || 0 ) + config.smoothingFactor ) ) -
+                Math.log2( words[ label ] + ( voc.size * config.smoothingFactor ) ) ) :
+        voc.has( w ) ?  ( Math.log2( ( ( count[ label ][ w ] || 0 ) + 1 ) ) -
+                Math.log2( ( words[ label ] + voc.size ) ) ) :
                 0
     );
   }; // logLikelihood()
@@ -138,8 +138,9 @@ var textNBC = function () {
     // No need to perform `voc.has( w )` check as `odds()` will not call the
     // `inverseLogLikelihood()` if `logLikelihood()` returns a **0**. It does
     // so to avoid recomputation. See comments in `logLikelihood()`.
-    return ( Math.log2( ( clw + ( config.smoothingFactor || 1 ) ) /
-              ( wl + ( voc.size * ( config.smoothingFactor || 1 ) ) ) ) );
+    return ( Math.log2( ( clw + ( config.smoothingFactor || 1 ) ) ) -
+              Math.log2( ( wl + ( voc.size * ( config.smoothingFactor || 1 ) ) ) )
+    );
 
   }; // inverseLogLikelihood()
 
@@ -176,8 +177,8 @@ var textNBC = function () {
     // Add prior probablities only if 1 or more tokens are found in `voc`.
     if ( lh !== 0 ) {
       // Add prior probabilities as `lh` (and therefore `ilh`) is **0**.
-      lh += Math.log2( samplesInLabel / sum );
-      ilh += Math.log2( samplesNotInLabel / sum  );
+      lh += ( Math.log2( samplesInLabel ) - Math.log2( sum ) );
+      ilh += ( Math.log2( samplesNotInLabel ) - Math.log2( sum  ) );
     }
 
     // Return the log likelihoods ratio; subtract as it is a log. This will

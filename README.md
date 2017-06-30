@@ -7,9 +7,9 @@
 
 <img align="right" src="https://decisively.github.io/wink-logos/logo-title.png" width="100px" >
 
-**wink-naive-bayes-text-classifier** is a part of **[wink](https://www.npmjs.com/~sanjaya)**, which is a family of Machine Learning NPM packages. They consist of simple and/or higher order functions that can be combined with NodeJS `stream` and `child processes` to create recipes for analytics driven business solutions.
+Classify text, analyse sentiments, recognize user intents for chatbot using **`wink-naive-bayes-text-classifier`**. It is a part of [wink](https://www.npmjs.com/~sanjaya) — a growing family of high quality packages for Statistical Analysis, Natural Language Processing and Machine Learning in NodeJS.
 
-Easily classify text, analyse sentiments, recognize intents using **wink-naive-bayes-text-classifier**. It's [API](#api) offers a rich set of features:
+It's [API](#api) offers a rich set of features:
 
 1. Configure text preparation task such as **amplify negation**, **tokenize**, **stem**, **remove stop words**, and **propagate negation** using [wink-nlp-utils](https://www.npmjs.com/package/wink-nlp-utils) or any other package of your choice.
 2. Configure **Lidstone** or **Lapalce** additive smoothing.
@@ -100,8 +100,8 @@ order of `odds`. Here is an example of the returned array:
 
 ```javascript
 [
-  [ 'prepay', 12.052329801050742 ],
-  [ 'autoloan', -0.5258305619141836 ]
+  [ 'prepay', 12.052329801050746 ],
+  [ 'autoloan', -0.5258305619141872 ]
 ]
 ```
 
