@@ -74,7 +74,7 @@ Defines the text preparation `tasks` to transform raw incoming text into an arra
 As illustrated in the usage, [wink-nlp-utils](https://www.npmjs.com/package/wink-nlp-utils) offers a rich set of such functions.
 
 #### defineConfig( config )
-Defines the configuration from the `config` object. This object must define 2 properties viz. (a) `considerOnlyPresence` and `smoothingFactor`. The `considerOnlyPresence` must be a boolean — true indicates a binarized model; default value is false. The `smoothingFactor` defines the value for additive smoothing; its default value is 0.5. The `defineConfig()` must be called before attempting to learn.
+Defines the configuration from the `config` object. This object must define 2 properties viz. (a) `considerOnlyPresence` and `smoothingFactor`. The `considerOnlyPresence` must be a boolean — true indicates a binarized model; default value is false. The `smoothingFactor` defines the value for additive smoothing; its default value is **1**. The `defineConfig()` must be called before attempting to learn.
 
 #### learn( input, label )
 Simply learns that the `input` belongs to the `label`. If the input is a JavaScript String, then `definePrepTasks()` must be called before learning.
@@ -100,8 +100,8 @@ order of `odds`. Here is an example of the returned array:
 
 ```javascript
 [
-  [ 'prepay', 12.052329801050746 ],
-  [ 'autoloan', -0.5258305619141872 ]
+  [ 'prepay', 6.169686751688911 ],
+  [ 'autoloan', -6.169686751688911 ]
 ]
 ```
 
