@@ -30,17 +30,17 @@
   },
   "homepage": "https://github.com/decisively/wink-naive-bayes-text-classifier#readme",
   "devDependencies": {
-    "chai": "^3.5.0",
+    "chai": "^4.1.0",
     "coveralls": "^2.11.15",
     "docco": "^0.7.0",
-    "eslint": "^3.13.1",
+    "eslint": "^4.3.0",
     "istanbul": "^0.4.5",
-    "jshint": "^2.9.4",
-    "mocha": "^3.1.0",
+    "jshint": "^2.9.5",
+    "mocha": "^3.4.2",
     "mocha-lcov-reporter": "^1.2.0",
-    "wink-nlp-utils": "^1.0.2"
+    "wink-nlp-utils": "^1.2.1"
   },
   "dependencies": {
-    "wink-helpers": "^1.0.0"
+    "wink-helpers": "^1.1.1"
   }
 }
