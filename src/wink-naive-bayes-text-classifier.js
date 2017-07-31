@@ -82,7 +82,8 @@ var textNBC = function () {
   var config = Object.create( null );
   // Set their default values.
   config.considerOnlyPresence = false;
-  config.smoothingFactor = 0.5;
+  // Default smoothingFactor is set to Laplace add+1 smoothing.
+  config.smoothingFactor = 1;
 
   // ### Private functions
 
