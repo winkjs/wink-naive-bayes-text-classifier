@@ -86,7 +86,8 @@ describe( 'textNBC() with considerOnlyPresence as true', function () {
     expect( learnTNBC.defineConfig.bind( null, 1 ) ).to.throw( 'winkNBTC: config must be an object, instead found: number' );
   } );
   it( 'defineConfig should return true', function () {
-    expect( learnTNBC.defineConfig( { considerOnlyPresence: true, smoothingFactor: 1 } ) ).to.equal( true );
+    // It will ensure that smoothing factor is set to 1.
+    expect( learnTNBC.defineConfig( { considerOnlyPresence: true } ) ).to.equal( true );
   } );
   examples.forEach( function ( example ) {
     it( 'should return ' + example.expectedOutputIs + ' if the input is ' + JSON.stringify( example.whenInputIs ), function () {
@@ -113,9 +114,9 @@ describe( 'textNBC() with considerOnlyPresence as true', function () {
   } );
 
   var odds = [
-    { whenInputIs: 'I would like to borrow 50000 to buy a new audi r8 in new york', expectedOutputIs: [ [ 'autoloan', 2.418197106193233 ], [ 'prepay', -2.418197106193233 ] ]  },
+    { whenInputIs: 'I would like to borrow 50000 to buy a new audi r8 in new york', expectedOutputIs: [ [ 'autoloan', 3.850918263715954 ], [ 'prepay', -3.850918263715954 ] ]  },
     { whenInputIs: 'happy', expectedOutputIs: [ [ 'unknown', 0 ] ] },
-    { whenInputIs: 'I want to pay my car loan early', expectedOutputIs: [ [ 'prepay', 6.647260470863131 ], [ 'autoloan', -6.647260470863131 ] ] },
+    { whenInputIs: 'I want to pay my car loan early', expectedOutputIs: [ [ 'prepay', 6.169686751688911 ], [ 'autoloan', -6.169686751688911 ] ] },
     { whenInputIs: '', expectedOutputIs: [ [ 'unknown', 0 ] ] },
     { whenInputIs: 'happy', expectedOutputIs: [ [ 'unknown', 0 ] ] }
   ];
@@ -184,6 +185,46 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
   } );
 } );
 
+describe( 'textNBC() with considerOnlyPresence as undefined', function () {
+  var learnTNBC = tnbc();
+  // Training Data.
+  var examples = [
+    { whenInputIs: [ 'i want to prepay my loan', 'prepay' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i want to close my loan', 'prepay' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i want to foreclose my loan', 'prepay' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i need loan for car', 'autoloan' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i need loan for a new vehicle', 'autoloan' ] , expectedOutputIs: true },
+    { whenInputIs: [ 'i need money for a new car', 'autoloan' ] , expectedOutputIs: true }
+  ];
+  // Prediction Data.
+  var predict = [
+    { whenInputIs: 'want to take loan', expectedOutputIs: 'autoloan' },
+    { whenInputIs: 'want to prepay', expectedOutputIs: 'unknown' },
+    { whenInputIs: 'buying 4-wheeler, need money', expectedOutputIs: 'unknown' }
+  ];
+  // Test prepTasks definition.
+  it( 'definePrepTasks should return 1', function () {
+    expect( learnTNBC.definePrepTasks( [ prepare.string.tokenize0 ] ) ).to.equal( 1 );
+  } );
+  it( 'defineConfig should return true', function () {
+    expect( learnTNBC.defineConfig( { considerOnlyPresence: true, smoothingFactor: 0 } ) ).to.equal( true );
+  } );
+  // Test learn.
+  examples.forEach( function ( example ) {
+    it( 'learn should return ' + example.expectedOutputIs + ' if the input is ' + JSON.stringify( example.whenInputIs ), function () {
+      expect( learnTNBC.learn( example.whenInputIs[ 0 ], example.whenInputIs[ 1 ] ) ).to.equal( example.expectedOutputIs );
+    } );
+  } );
+  it( 'consolidate should return true', function () {
+    expect( learnTNBC.consolidate() ).to.equal( true );
+  } );
+  predict.forEach( function ( p ) {
+    it( 'should return ' + p.expectedOutputIs + ' if the input is ' + JSON.stringify( p.whenInputIs ), function () {
+     expect( learnTNBC.predict( p.whenInputIs ) ).to.equal( p.expectedOutputIs );
+    } );
+  } );
+} );
+
 
 describe( 'textNBC() with considerOnlyPresence as undefined', function () {
   var learnTNBC = tnbc();
@@ -204,8 +245,8 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
   var predict = [
     { whenInputIs: 'I would like to borrow 50000 to buy a new audi r8 in new york', expectedOutputIs: 'autoloan'  },
     { whenInputIs: 'I want to pay my car loan early', expectedOutputIs: 'prepay' },
-    // { whenInputIs: '', expectedOutputIs: 'unknown' },
-    // { whenInputIs: 'happy', expectedOutputIs: 'unknown' }
+    { whenInputIs: '', expectedOutputIs: 'unknown' },
+    { whenInputIs: 'buying 4-wheeler, require dollars', expectedOutputIs: 'unknown' }
   ];
   // Test prepTasks definition.
   it( 'definePrepTasks should return 1', function () {
@@ -225,7 +266,6 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
   } );
   // Define Config should throw error.
   it( 'defineConfig should throw error post learning', function () {
-    // This will default to false and 0 - the required config - solves dual purpose of testing!
     expect( learnTNBC.defineConfig.bind( null, { considerOnlyPresence: 1, smoothingFactor: 'x' } ) ).to.throw( 'winkNBTC: config must be defined before learning starts!' );
   } );
   // Test consolidation.

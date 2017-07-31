@@ -168,6 +168,13 @@ var textNBC = function () {
     // Temp Label.
     var lbl, i, imax;
 
+    // Filter unknown tokens.
+    var ivTokens = tokens.filter( function ( e ) {
+      return voc.has( e );
+    } );
+    // No known tokens means simply return **0**.
+    if ( ivTokens.length === 0 ) return 0;
+
     // Compute `samplesNotInLabel`.
     for ( i = 0; i < labelCount; i += 1 ) {
       lbl = labels[ i ];
@@ -176,10 +183,10 @@ var textNBC = function () {
     }
 
     // Update them for the given tokens for `label`
-    for ( i = 0, imax = tokens.length; i < imax; i += 1 ) {
-      lh += logLikelihood( tokens[ i ], label );
+    for ( i = 0, imax = ivTokens.length; i < imax; i += 1 ) {
+      lh += logLikelihood( ivTokens[ i ], label );
       // If `lh` is **0** then ilh will be zero - avoid computation.
-      ilh += ( lh === 0 ) ? 0 : inverseLogLikelihood( tokens[ i ], label );
+      ilh += ( lh === 0 ) ? 0 : inverseLogLikelihood( ivTokens[ i ], label );
     }
 
     // Add prior probablities only if 1 or more tokens are found in `voc`.
@@ -222,8 +229,8 @@ var textNBC = function () {
     if ( isNaN( sf ) || ( sf < 0 ) || ( sf > 1 ) ) {
       throw Error( 'winkNBTC: smoothing factor must be a number between 0 & 1, instead found: ' + JSON.stringify( sf ) );
     }
-    config.smoothingFactor = ( isNaN( cfg.smoothingFactor ) ) ?
-            0 : Math.max( Math.min( cfg.smoothingFactor, 1 ), 0 );
+    // All good, set smoothingFactor as `sf`.
+    config.smoothingFactor = sf;
     return true;
   }; // defineConfig()
 
