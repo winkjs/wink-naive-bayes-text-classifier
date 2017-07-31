@@ -103,24 +103,25 @@ var textNBC = function () {
 
   // Computes the pre-definable smoothed log likelihood `( w | label )`.
   var logLikelihood = function ( w, label ) {
-    // If there is a **non-zero** `smoothingFactor`, then use the regular
-    // formula for computation. When it is **0**, in that case if the `w`
-    // is not found in vocabulary, return 0; otherwise perform add-1.
-    // Note, a 0 `smoothingFactor` can lead to `unknown` prediction if non-zero
-    // of the words are found in the vocabulary.
+    // To avoid recomputation.
+    var clw = ( count[ label ][ w ] || 0 );
     return (
       ( config.smoothingFactor > 0 ) ?
-        ( Math.log2( ( ( count[ label ][ w ] || 0 ) + config.smoothingFactor ) ) -
-                Math.log2( words[ label ] + ( voc.size * config.smoothingFactor ) ) ) :
-        voc.has( w ) ?  ( Math.log2( ( ( count[ label ][ w ] || 0 ) + 1 ) ) -
-                Math.log2( ( words[ label ] + voc.size ) ) ) :
-                0
+        // Numerator will never be **0** due to smoothing.
+        ( Math.log2( ( clw + config.smoothingFactor ) ) -
+          Math.log2( words[ label ] + ( voc.size * config.smoothingFactor ) ) ) :
+        // Numerator will be 0 if `w` is not found under the `label`.
+        ( clw ) ?
+          // Non-zero numerator means normal handling
+          ( Math.log2( clw ) - Math.log2( ( words[ label ] + voc.size ) ) ) :
+          // Zero numerator: return **0**.
+          0
     );
   }; // logLikelihood()
 
   // #### Inverse Log Likelihood
 
-  // Computes the 1+ smoothed log likelihood `( w | label )`.
+  // Computes the pre-definable smoothed inverse log likelihood `( w | label )`.
   var inverseLogLikelihood = function ( w, label ) {
     // Index and temporary label.
     var i, l;
@@ -136,13 +137,19 @@ var textNBC = function () {
         clw += ( count[ l ][ w ] || 0 );
       }
     }
-    // No need to perform `voc.has( w )` check as `odds()` will not call the
-    // `inverseLogLikelihood()` if `logLikelihood()` returns a **0**. It does
-    // so to avoid recomputation. See comments in `logLikelihood()`.
-    return ( Math.log2( ( clw + ( config.smoothingFactor || 1 ) ) ) -
-              Math.log2( ( wl + ( voc.size * ( config.smoothingFactor || 1 ) ) ) )
-    );
 
+    return (
+      ( config.smoothingFactor > 0 ) ?
+        // Numerator will never be **0** due to smoothing.
+        ( Math.log2( ( clw + config.smoothingFactor ) ) -
+          Math.log2( wl + ( voc.size * config.smoothingFactor ) ) ) :
+        // Numerator may be 0.
+        ( clw ) ?
+          // Non-zero numerator means normal handling
+          ( Math.log2( clw ) - Math.log2( ( wl + voc.size ) ) ) :
+          // Zero numerator: return **0**.
+          0
+    );
   }; // inverseLogLikelihood()
 
   // #### Odds

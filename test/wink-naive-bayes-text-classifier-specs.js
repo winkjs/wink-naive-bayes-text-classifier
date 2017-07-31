@@ -86,7 +86,7 @@ describe( 'textNBC() with considerOnlyPresence as true', function () {
     expect( learnTNBC.defineConfig.bind( null, 1 ) ).to.throw( 'winkNBTC: config must be an object, instead found: number' );
   } );
   it( 'defineConfig should return true', function () {
-    expect( learnTNBC.defineConfig( { considerOnlyPresence: true, smoothingFactor: 0 } ) ).to.equal( true );
+    expect( learnTNBC.defineConfig( { considerOnlyPresence: true, smoothingFactor: 1 } ) ).to.equal( true );
   } );
   examples.forEach( function ( example ) {
     it( 'should return ' + example.expectedOutputIs + ' if the input is ' + JSON.stringify( example.whenInputIs ), function () {
@@ -113,9 +113,9 @@ describe( 'textNBC() with considerOnlyPresence as true', function () {
   } );
 
   var odds = [
-    { whenInputIs: 'I would like to borrow 50000 to buy a new audi r8 in new york', expectedOutputIs: [ [ 'autoloan', 32.07019921258957 ], [ 'prepay', 25.562296983093262 ] ]  },
+    { whenInputIs: 'I would like to borrow 50000 to buy a new audi r8 in new york', expectedOutputIs: [ [ 'autoloan', 2.418197106193233 ], [ 'prepay', -2.418197106193233 ] ]  },
     { whenInputIs: 'happy', expectedOutputIs: [ [ 'unknown', 0 ] ] },
-    { whenInputIs: 'I want to pay my car loan early', expectedOutputIs: [ [ 'prepay', 12.052329801050746 ], [ 'autoloan', -0.5258305619141872 ] ] },
+    { whenInputIs: 'I want to pay my car loan early', expectedOutputIs: [ [ 'prepay', 6.647260470863131 ], [ 'autoloan', -6.647260470863131 ] ] },
     { whenInputIs: '', expectedOutputIs: [ [ 'unknown', 0 ] ] },
     { whenInputIs: 'happy', expectedOutputIs: [ [ 'unknown', 0 ] ] }
   ];
