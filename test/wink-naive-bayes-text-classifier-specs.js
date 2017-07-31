@@ -214,9 +214,8 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
   it( 'definePrepTasks should return 1', function () {
     expect( anotherTNBC.definePrepTasks( [ prepare.string.tokenize0 ] ) ).to.equal( 1 );
   } );
-  it( 'defineConfig should return true', function () {
-    // This will default to false and 0 - the required config - solves dual purpose of testing!
-    expect( learnTNBC.defineConfig( { considerOnlyPresence: 1, smoothingFactor: 'x' } ) ).to.equal( true );
+  it( 'defineConfig should throw error with illegal smoothingFactor value', function () {
+    expect( learnTNBC.defineConfig.bind( null, { considerOnlyPresence: 1, smoothingFactor: 'x' } ) ).to.throw( 'winkNBTC: smoothing factor must be a number between 0 & 1, instead found: null' );
   } );
   // Test learn.
   examples.forEach( function ( example ) {
