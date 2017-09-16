@@ -21,14 +21,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/decisively/wink-naive-bayes-text-classifier.git"
+    "url": "git+https://github.com/winkjs/wink-naive-bayes-text-classifier.git"
   },
   "author": "Sanjaya Kumar Saxena",
   "license": "AGPL-3.0",
   "bugs": {
-    "url": "https://github.com/decisively/wink-naive-bayes-text-classifier/issues"
+    "url": "https://github.com/winkjs/wink-naive-bayes-text-classifier/issues"
   },
-  "homepage": "https://github.com/decisively/wink-naive-bayes-text-classifier#readme",
+  "homepage": "https://github.com/winkjs/wink-naive-bayes-text-classifier#readme",
   "devDependencies": {
     "chai": "^4.1.0",
     "coveralls": "^2.11.15",
@@ -41,6 +41,6 @@
     "wink-nlp-utils": "^1.2.1"
   },
   "dependencies": {
-    "wink-helpers": "^1.1.1"
+    "wink-helpers": "^1.2.0"
   }
 }

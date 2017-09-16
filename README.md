@@ -3,7 +3,7 @@
 
 > Configurable [Naive Bayes](https://en.wikipedia.org/wiki/Naive_Bayes_classifier) Classifier for text with cross-validation support
 
-### [![Build Status](https://api.travis-ci.org/decisively/wink-naive-bayes-text-classifier.svg?branch=master)](https://travis-ci.org/decisively/wink-naive-bayes-text-classifier) [![Coverage Status](https://coveralls.io/repos/github/decisively/wink-naive-bayes-text-classifier/badge.svg?branch=master)](https://coveralls.io/github/decisively/wink-naive-bayes-text-classifier?branch=master) [![Inline docs](http://inch-ci.org/github/decisively/wink-naive-bayes-text-classifier.svg?branch=master)](http://inch-ci.org/github/decisively/wink-naive-bayes-text-classifier) [![dependencies Status](https://david-dm.org/decisively/wink-naive-bayes-text-classifier/status.svg)](https://david-dm.org/decisively/wink-naive-bayes-text-classifier) [![devDependencies Status](https://david-dm.org/decisively/wink-naive-bayes-text-classifier/dev-status.svg)](https://david-dm.org/decisively/wink-naive-bayes-text-classifier?type=dev)
+### [![Build Status](https://api.travis-ci.org/winkjs/wink-naive-bayes-text-classifier.svg?branch=master)](https://travis-ci.org/winkjs/wink-naive-bayes-text-classifier) [![Coverage Status](https://coveralls.io/repos/github/winkjs/wink-naive-bayes-text-classifier/badge.svg?branch=master)](https://coveralls.io/github/winkjs/wink-naive-bayes-text-classifier?branch=master) [![Inline docs](http://inch-ci.org/github/winkjs/wink-naive-bayes-text-classifier.svg?branch=master)](http://inch-ci.org/github/winkjs/wink-naive-bayes-text-classifier) [![dependencies Status](https://david-dm.org/winkjs/wink-naive-bayes-text-classifier/status.svg)](https://david-dm.org/winkjs/wink-naive-bayes-text-classifier) [![devDependencies Status](https://david-dm.org/winkjs/wink-naive-bayes-text-classifier/dev-status.svg)](https://david-dm.org/winkjs/wink-naive-bayes-text-classifier?type=dev)
 
 <img align="right" src="https://decisively.github.io/wink-logos/logo-title.png" width="100px" >
 
@@ -120,7 +120,7 @@ Returns basic stats of learning in terms of count of samples under each label, t
 It completely resets the classifier by re-initializing all the learning related variables, except the preparatory tasks. It is useful during cross fold-validation.
 
 ## Need Help?
-If you spot a bug and the same has not yet been reported, raise a new [issue](https://github.com/decisively/wink-naive-bayes-text-classifier/issues) or consider fixing it and sending a pull request.
+If you spot a bug and the same has not yet been reported, raise a new [issue](https://github.com/winkjs/wink-naive-bayes-text-classifier/issues) or consider fixing it and sending a pull request.
 
 
 ## Copyright & License
