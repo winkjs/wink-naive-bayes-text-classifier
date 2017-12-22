@@ -25,11 +25,13 @@ npm install wink-naive-bayes-text-classifier --save
 ```
 
 
-## Usage
+## Example
 ```javascript
 
 // Load Naive Bayes Text Classifier
-var nbc = require( 'wink-naive-bayes-text-classifier' )();
+var Classifier = require( 'wink-naive-bayes-text-classifier' );
+// Instantiate
+var nbc = Classifier();
 // Load NLP utilities
 var nlp = require( 'wink-nlp-utils' );
 // Configure preparation tasks
