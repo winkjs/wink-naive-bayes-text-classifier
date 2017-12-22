@@ -1,7 +1,7 @@
 
 # wink-naive-bayes-text-classifier
 
-> Configurable [Naive Bayes](https://en.wikipedia.org/wiki/Naive_Bayes_classifier) Classifier for text with cross-validation support
+Configurable [Naive Bayes](https://en.wikipedia.org/wiki/Naive_Bayes_classifier) Classifier for text with cross-validation support
 
 ### [![Build Status](https://api.travis-ci.org/winkjs/wink-naive-bayes-text-classifier.svg?branch=master)](https://travis-ci.org/winkjs/wink-naive-bayes-text-classifier) [![Coverage Status](https://coveralls.io/repos/github/winkjs/wink-naive-bayes-text-classifier/badge.svg?branch=master)](https://coveralls.io/github/winkjs/wink-naive-bayes-text-classifier?branch=master) [![Inline docs](http://inch-ci.org/github/winkjs/wink-naive-bayes-text-classifier.svg?branch=master)](http://inch-ci.org/github/winkjs/wink-naive-bayes-text-classifier) [![dependencies Status](https://david-dm.org/winkjs/wink-naive-bayes-text-classifier/status.svg)](https://david-dm.org/winkjs/wink-naive-bayes-text-classifier) [![devDependencies Status](https://david-dm.org/winkjs/wink-naive-bayes-text-classifier/dev-status.svg)](https://david-dm.org/winkjs/wink-naive-bayes-text-classifier?type=dev)
 
@@ -19,7 +19,7 @@ It's [API](#api) offers a rich set of features:
 6. Obtain comprehensive metrics including **confusion matrix**, **precision**, and **recall**.
 
 ## Installation
-Use **[npm](https://www.npmjs.com/package/wink-naive-bayes-text-classifier)** to install:
+Use [npm](https://www.npmjs.com/package/wink-naive-bayes-text-classifier) to install:
 ```
 npm install wink-naive-bayes-text-classifier --save
 ```
@@ -126,7 +126,7 @@ If you spot a bug and the same has not yet been reported, raise a new [issue](ht
 
 
 ## Copyright & License
-**wink-naive-bayes-text-classifier** is copyright 2017 GRAYPE Systems Private Limited.
+**wink-naive-bayes-text-classifier** is copyright 2017 [GRAYPE Systems Private Limited](http://graype.in/).
 
 It is licensed under the under the terms of the GNU Affero General Public License as published by the Free
 Software Foundation, version 3 of the License.
