@@ -12,11 +12,11 @@
   ],
   "main": "src/wink-naive-bayes-text-classifier.js",
   "scripts": {
-    "pretest": "npm run lint && npm run hint",
+    "pretest": "npm run lint && npm run docs",
     "test": "istanbul cover _mocha ./test/",
     "coveralls": "istanbul cover _mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
-    "docs": "docco -o ./docs/ ./src/*.js",
-    "hint": "jshint ./src/*.js ./test/*.js",
+    "sourcedocs": "docker -i src -o ./sourcedocs --sidebar no",
+    "docs": "jsdoc src/*.js -c .jsdoc.json",
     "lint": "eslint ./src/*.js ./test/*.js"
   },
   "repository": {
@@ -28,19 +28,20 @@
   "bugs": {
     "url": "https://github.com/winkjs/wink-naive-bayes-text-classifier/issues"
   },
-  "homepage": "https://github.com/winkjs/wink-naive-bayes-text-classifier#readme",
+  "homepage": "http://winkjs.org/wink-naive-bayes-text-classifier",
   "devDependencies": {
     "chai": "^4.1.2",
-    "coveralls": "^3.0.0",
-    "docco": "^0.8.0",
-    "eslint": "^4.13.1",
-    "istanbul": "^0.4.5",
-    "jshint": "^2.9.5",
-    "mocha": "^4.0.1",
+    "coveralls": "^3.0.1",
+    "docdash": "^1.0.0",
+    "docker": "^1.0.0",
+    "eslint": "^4.19.1",
+    "istanbul": "^1.1.0-alpha.1",
+    "jsdoc": "^3.5.5",
+    "mocha": "^5.2.0",
     "mocha-lcov-reporter": "^1.3.0"
   },
   "dependencies": {
-    "wink-helpers": "^1.2.0",
-    "wink-nlp-utils": "^1.7.0"
+    "wink-helpers": "^1.5.0",
+    "wink-nlp-utils": "^1.9.1"
   }
 }

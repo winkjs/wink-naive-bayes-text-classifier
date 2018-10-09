@@ -1,4 +1,47 @@
-//     wink-naive-bayes-text-classifier
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>wink-naive-bayes-text-classifier.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="http://winkjs.org" target="_blank" >Wink JS</a></h2><h2><a href="https://github.com/winkjs/wink-naive-bayes-text-classifier" target="_blank" >Github</a></h2><h3>Classes</h3><ul><li><a href="NaiveBayesTextClassifier.html">NaiveBayesTextClassifier</a><ul class='methods'><li data-type='method'><a href="NaiveBayesTextClassifier.html#computeOdds">computeOdds</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#consolidate">consolidate</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#defineConfig">defineConfig</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#definePrepTasks">definePrepTasks</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#learn">learn</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#predict">predict</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#stats">stats</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#naiveBayesTextClassifier">naiveBayesTextClassifier</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">wink-naive-bayes-text-classifier.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>//     wink-naive-bayes-text-classifier
 //     Configurable Naive Bayes Classifier for text
 //     with cross-validation support.
 //
@@ -19,7 +62,7 @@
 //
 //     You should have received a copy of the GNU Affero
 //     General Public License along with “wink-naive-bayes-text-classifier”.
-//     If not, see <http://www.gnu.org/licenses/>.
+//     If not, see &lt;http://www.gnu.org/licenses/>.
 
 //
 var helpers = require( 'wink-helpers' );
@@ -66,7 +109,7 @@ var naiveBayesTextClassifier = function () {
   var words = Object.create( null );
   // The entire vocabulary.
   var voc = new Set();
-  // Preparatory tasks that are executed on the `learn` & `predict` input.
+  // Preparatory tasks that are executed on the `learn` &amp; `predict` input.
   var pTasks = [];
   // And its count.
   var pTaskCount;
@@ -116,7 +159,7 @@ var naiveBayesTextClassifier = function () {
   */
   var prepareInput = function ( input ) {
     var processedInput = input;
-    for ( var i = 0; i < pTaskCount; i += 1 ) {
+    for ( var i = 0; i &lt; pTaskCount; i += 1 ) {
       processedInput = pTasks[ i ]( processedInput );
     }
     return ( processedInput );
@@ -167,7 +210,7 @@ var naiveBayesTextClassifier = function () {
     // `words[ l ]`
     var wl = 0;
 
-    for ( i = 0; i < labelCount; i += 1 ) {
+    for ( i = 0; i &lt; labelCount; i += 1 ) {
       l = labels[ i ];
       if ( l !== label ) {
         wl += words[ l ];
@@ -208,7 +251,7 @@ var naiveBayesTextClassifier = function () {
     var samplesInLabel = samples[ label ];
     // Samples NOT enountered under the `label`.
     var samplesNotInLabel = 0;
-    // Log Base 2 Likelihood & Inverse likelihood
+    // Log Base 2 Likelihood &amp; Inverse likelihood
     var lh = 0,
         ilh = 0;
     // Temp Label.
@@ -222,14 +265,14 @@ var naiveBayesTextClassifier = function () {
     if ( ivTokens.length === 0 ) return 0;
 
     // Compute `samplesNotInLabel`.
-    for ( i = 0; i < labelCount; i += 1 ) {
+    for ( i = 0; i &lt; labelCount; i += 1 ) {
       lbl = labels[ i ];
       sum += samples[ lbl ];
       samplesNotInLabel += ( lbl === label ) ? 0 : samples[ lbl ];
     }
 
     // Update them for the given tokens for `label`
-    for ( i = 0, imax = ivTokens.length; i < imax; i += 1 ) {
+    for ( i = 0, imax = ivTokens.length; i &lt; imax; i += 1 ) {
       lh += logLikelihood( ivTokens[ i ], label );
       // If `lh` is **0** then ilh will be zero - avoid computation.
       ilh += ( lh === 0 ) ? 0 : inverseLogLikelihood( ivTokens[ i ], label );
@@ -243,7 +286,7 @@ var naiveBayesTextClassifier = function () {
     }
 
     // Return the log likelihoods ratio; subtract as it is a log. This will
-    // be a measure of distance between the probability & inverse probability.
+    // be a measure of distance between the probability &amp; inverse probability.
     return ( lh - ilh );
   }; // odds()
 
@@ -282,8 +325,8 @@ var naiveBayesTextClassifier = function () {
     // If smoothing factor is undefined set it to lapalce add+1 smoothing.
     var sf = ( cfg.smoothingFactor === undefined ) ? 1 : parseFloat( cfg.smoothingFactor );
     // Throw error for a value beyond 0-1 or NaN.
-    if ( isNaN( sf ) || ( sf < 0 ) || ( sf > 1 ) ) {
-      throw Error( 'winkNBTC: smoothing factor must be a number between 0 & 1, instead found: ' + JSON.stringify( sf ) );
+    if ( isNaN( sf ) || ( sf &lt; 0 ) || ( sf > 1 ) ) {
+      throw Error( 'winkNBTC: smoothing factor must be a number between 0 &amp; 1, instead found: ' + JSON.stringify( sf ) );
     }
     // All good, set smoothingFactor as `sf`.
     config.smoothingFactor = sf;
@@ -324,7 +367,7 @@ var naiveBayesTextClassifier = function () {
     if ( !helpers.array.isArray( tasks ) ) {
       throw Error( 'winkNBTC: tasks should be an array, instead found: ' + JSON.stringify( tasks ) );
     }
-    for ( var i = 0, imax = tasks.length; i < imax; i += 1 ) {
+    for ( var i = 0, imax = tasks.length; i &lt; imax; i += 1 ) {
       if ( typeof tasks[ i ] !== 'function' ) {
         throw Error( 'winkNBTC: each task should be a function, instead found: ' + JSON.stringify( tasks[ i ] ) );
       }
@@ -400,21 +443,21 @@ var naiveBayesTextClassifier = function () {
     // Extract all labels that have been seen during learning phase.
     labels = helpers.object.keys( samples );
     labelCount = labels.length;
-    // A quick & simple check of some minimal learning mass!
-    if ( labelCount < 2 ) {
+    // A quick &amp; simple check of some minimal learning mass!
+    if ( labelCount &lt; 2 ) {
       throw Error( 'winkNBTC: can not consolidate as classification require 2 or more labels!' );
     }
-    if ( voc.size < 10 ) {
+    if ( voc.size &lt; 10 ) {
       throw Error( 'winkNBTC: vocabulary is too small to learn meaningful classification!' );
     }
     // Initialize confusion matrix and metrics.
-    for ( i = 0; i < labelCount; i += 1 ) {
+    for ( i = 0; i &lt; labelCount; i += 1 ) {
       row = labels[ i ];
       cm[ row ] = Object.create( null );
       precision[ row ] = 0;
       recall[ row ] = 0;
       fmeasure[ row ] = 0;
-      for ( j = 0; j < labelCount; j += 1 ) {
+      for ( j = 0; j &lt; labelCount; j += 1 ) {
         col = labels[ j ];
         cm[ row ][ col ] = 0;
       }
@@ -449,11 +492,11 @@ var naiveBayesTextClassifier = function () {
     if ( !consolidated ) {
       throw Error( 'winkNBTC: prediction is not possible unless learnings are consolidated!' );
     }
-    // Contains label & the corresponding odds pairs.
+    // Contains label &amp; the corresponding odds pairs.
     var allOdds = [];
     // Temporary label.
     var label;
-    for ( var i = 0; i < labelCount; i += 1 ) {
+    for ( var i = 0; i &lt; labelCount; i += 1 ) {
       label = labels[ i ];
       allOdds.push( [ label, odds( prepareInput( input ), label ) ] );
     }
@@ -483,7 +526,7 @@ var naiveBayesTextClassifier = function () {
    * // -> prepay
   */
   var predict = function ( input ) {
-    // Contains label & the corresponding odds pairs.
+    // Contains label &amp; the corresponding odds pairs.
     var allOdds = computeOdds( input );
     return ( allOdds[ 0 ][ 0 ] );
   }; // predict()
@@ -544,7 +587,7 @@ var naiveBayesTextClassifier = function () {
   // validation.
   var reset = function () {
     // Reset values of variables that are associated with learning; Therefore
-    // `pTasks` & `pTaskCount` are not re-initialized.
+    // `pTasks` &amp; `pTaskCount` are not re-initialized.
     samples = Object.create( null );
     count = Object.create( null );
     words = Object.create( null );
@@ -582,7 +625,7 @@ var naiveBayesTextClassifier = function () {
     if ( !helpers.array.isArray( parsedJSON ) || parsedJSON.length !== isOK.length ) {
       throw Error( 'winkNBTC: invalid JSON encountered, can not import.' );
     }
-    for ( var i = 0; i < isOK.length; i += 1 ) {
+    for ( var i = 0; i &lt; isOK.length; i += 1 ) {
       if ( !isOK[ i ]( parsedJSON[ i ] ) ) {
         throw Error( 'winkNBTC: invalid JSON encountered, can not import.' );
       }
@@ -638,9 +681,9 @@ var naiveBayesTextClassifier = function () {
     if ( !evaluated ) {
       throw Error( 'winkNBTC: metrics can not be computed before evaluation.' );
     }
-    // Numerators for every label; they are same for precision & recall both.
+    // Numerators for every label; they are same for precision &amp; recall both.
     var n = Object.create( null );
-    // Only denominators differs for precision & recall
+    // Only denominators differs for precision &amp; recall
     var pd = Object.create( null );
     var rd = Object.create( null );
     // `row` and `col` of confusion matrix.
@@ -651,10 +694,10 @@ var naiveBayesTextClassifier = function () {
     var avgRecall = 0;
     var avgFMeasure = 0;
 
-    // Compute label-wise numerators & denominators!
-    for ( i = 0; i < labelCount; i += 1 ) {
+    // Compute label-wise numerators &amp; denominators!
+    for ( i = 0; i &lt; labelCount; i += 1 ) {
       row = labels[ i ];
-      for ( j = 0; j < labelCount; j += 1 ) {
+      for ( j = 0; j &lt; labelCount; j += 1 ) {
         col = labels[ j ];
         if ( row === col ) {
           n[ row ] = cm[ row ][ col ];
@@ -664,7 +707,7 @@ var naiveBayesTextClassifier = function () {
       }
     }
     // Ready to compute metrics.
-    for ( i = 0; i < labelCount; i += 1 ) {
+    for ( i = 0; i &lt; labelCount; i += 1 ) {
       row = labels[ i ];
       precision[ row ] = +( n[ row ] / pd[ row ] ).toFixed( 4 );
       // NaN can occur if a label has not been encountered.
@@ -677,7 +720,7 @@ var naiveBayesTextClassifier = function () {
       if ( isNaN( fmeasure[ row ] ) ) fmeasure[ row ] = 0;
     }
     // Compute thier averages, note they will be macro avegages.
-    for ( i = 0; i < labelCount; i += 1 ) {
+    for ( i = 0; i &lt; labelCount; i += 1 ) {
       avgPrecision += ( precision[ labels[ i ] ] / labelCount );
       avgRecall += ( recall[ labels[ i ] ] / labelCount );
       avgFMeasure += ( fmeasure[ labels[ i ] ] / labelCount );
@@ -720,3 +763,26 @@ var naiveBayesTextClassifier = function () {
 
 // Export textNBC.
 module.exports = naiveBayesTextClassifier;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Oct 09 2018 20:37:59 GMT+0530 (IST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+
+
+</body>
+</html>

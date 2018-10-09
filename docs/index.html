@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Home - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="http://winkjs.org" target="_blank" >Wink JS</a></h2><h2><a href="https://github.com/winkjs/wink-naive-bayes-text-classifier" target="_blank" >Github</a></h2><h3>Classes</h3><ul><li><a href="NaiveBayesTextClassifier.html">NaiveBayesTextClassifier</a><ul class='methods'><li data-type='method'><a href="NaiveBayesTextClassifier.html#computeOdds">computeOdds</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#consolidate">consolidate</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#defineConfig">defineConfig</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#definePrepTasks">definePrepTasks</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#learn">learn</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#predict">predict</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#stats">stats</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#naiveBayesTextClassifier">naiveBayesTextClassifier</a></li></ul>
+</nav>
+
+<div id="main">
+    
+
+    
+
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    <section class="readme">
+        <article><h1>wink-naive-bayes-text-classifier</h1><p>Configurable <a href="https://en.wikipedia.org/wiki/Naive_Bayes_classifier">Naive Bayes</a> Classifier for text with cross-validation support</p>
+<h3><a href="https://travis-ci.org/winkjs/wink-naive-bayes-text-classifier"><img src="https://api.travis-ci.org/winkjs/wink-naive-bayes-text-classifier.svg?branch=master" alt="Build Status"></a> <a href="https://coveralls.io/github/winkjs/wink-naive-bayes-text-classifier?branch=master"><img src="https://coveralls.io/repos/github/winkjs/wink-naive-bayes-text-classifier/badge.svg?branch=master" alt="Coverage Status"></a> <a href="http://inch-ci.org/github/winkjs/wink-naive-bayes-text-classifier"><img src="http://inch-ci.org/github/winkjs/wink-naive-bayes-text-classifier.svg?branch=master" alt="Inline docs"></a> <a href="https://david-dm.org/winkjs/wink-naive-bayes-text-classifier"><img src="https://david-dm.org/winkjs/wink-naive-bayes-text-classifier/status.svg" alt="dependencies Status"></a> <a href="https://david-dm.org/winkjs/wink-naive-bayes-text-classifier?type=dev"><img src="https://david-dm.org/winkjs/wink-naive-bayes-text-classifier/dev-status.svg" alt="devDependencies Status"></a> <a href="https://gitter.im/winkjs/Lobby"><img src="https://img.shields.io/gitter/room/nwjs/nw.js.svg" alt="Gitter"></a></h3><p><img align="right" src="https://decisively.github.io/wink-logos/logo-title.png" width="100px" ></p>
+<p>Classify text, analyse sentiments, recognize user intents for chatbot using <strong><code>wink-naive-bayes-text-classifier</code></strong>. It is a part of <a href="http://winkjs.org/">wink</a> — a growing family of high quality packages for Statistical Analysis, Natural Language Processing and Machine Learning in NodeJS.</p>
+<p>It's <a href="#api">API</a> offers a rich set of features:</p>
+<ol>
+<li>Configure text preparation task such as <strong>amplify negation</strong>, <strong>tokenize</strong>, <strong>stem</strong>, <strong>remove stop words</strong>, and <strong>propagate negation</strong> using <a href="https://www.npmjs.com/package/wink-nlp-utils">wink-nlp-utils</a> or any other package of your choice.</li>
+<li>Configure <strong>Lidstone</strong> or <strong>Lapalce</strong> additive smoothing.</li>
+<li>Configure <strong>Multinomial</strong> or <strong>Binarized Multinomial</strong> Naive Bayes model.</li>
+<li>Export and import learnings in JSON format that can be easily saved on hard-disk.</li>
+<li>Evaluate learning to perform n-fold cross validation.</li>
+<li>Obtain comprehensive metrics including <strong>confusion matrix</strong>, <strong>precision</strong>, and <strong>recall</strong>.</li>
+</ol>
+<h2>Installation</h2><p>Use <a href="https://www.npmjs.com/package/wink-naive-bayes-text-classifier">npm</a> to install:</p>
+<pre class="prettyprint source"><code>npm install wink-naive-bayes-text-classifier --save</code></pre><h2>Example</h2><pre class="prettyprint source lang-javascript"><code>
+// Load Naive Bayes Text Classifier
+var Classifier = require( 'wink-naive-bayes-text-classifier' );
+// Instantiate
+var nbc = Classifier();
+// Load NLP utilities
+var nlp = require( 'wink-nlp-utils' );
+// Configure preparation tasks
+nbc.definePrepTasks( [
+  // Simple tokenizer
+  nlp.string.tokenize0,
+  // Common Stop Words Remover
+  nlp.tokens.removeWords,
+  // Stemmer to obtain base word
+  nlp.tokens.stem
+] );
+// Configure behavior
+nbc.defineConfig( { considerOnlyPresence: true, smoothingFactor: 0.5 } );
+// Train!
+nbc.learn( 'I want to prepay my loan', 'prepay' );
+nbc.learn( 'I want to close my loan', 'prepay' );
+nbc.learn( 'I want to foreclose my loan', 'prepay' );
+nbc.learn( 'I would like to pay the loan balance', 'prepay' );
+
+nbc.learn( 'I would like to borrow money to buy a vehicle', 'autoloan' );
+nbc.learn( 'I need loan for car', 'autoloan' );
+nbc.learn( 'I need loan for a new vehicle', 'autoloan' );
+nbc.learn( 'I need loan for a new mobike', 'autoloan' );
+nbc.learn( 'I need money for a new car', 'autoloan' );
+// Consolidate all the training!!
+nbc.consolidate();
+// Start predicting...
+console.log( nbc.predict( 'I would like to borrow 50000 to buy a new Audi R8 in New York' ) );
+// -> autoloan
+console.log( nbc.predict( 'I want to pay my car loan early' ) );
+// -> prepay
+</code></pre><h2>API</h2><h4>definePrepTasks( tasks )</h4><p>Defines the text preparation <code>tasks</code> to transform raw incoming text into an array of tokens required during <code>learn()</code>, <code>evaluate()</code> and <code>predict()</code> operations. The <code>tasks</code> should be an array of functions. The first function in this array must accept a string as input; and the last function must return an array of tokens as JavaScript Strings. Each function must accept one input argument and return a single value. <code>definePrepTasks</code> returns the count of <code>tasks</code>.</p>
+<p>As illustrated in the usage, <a href="https://www.npmjs.com/package/wink-nlp-utils">wink-nlp-utils</a> offers a rich set of such functions.</p>
+<h4>defineConfig( config )</h4><p>Defines the configuration from the <code>config</code> object. This object must define 2 properties viz. (a) <code>considerOnlyPresence</code> and <code>smoothingFactor</code>. The <code>considerOnlyPresence</code> must be a boolean — true indicates a binarized model; default value is false. The <code>smoothingFactor</code> defines the value for additive smoothing; its default value is <strong>1</strong>. The <code>defineConfig()</code> must be called before attempting to learn.</p>
+<h4>learn( input, label )</h4><p>Simply learns that the <code>input</code> belongs to the <code>label</code>. If the input is a JavaScript String, then <code>definePrepTasks()</code> must be called before learning.</p>
+<h4>consolidate()</h4><p>Consolidates the learning. It is a prerequisite for <code>evaluate()</code> and/or <code>predict()</code>.</p>
+<h4>evaluate( input, label )</h4><p>It is used to evaluate the learning against a test data set. The <code>input</code> is used to predict the label, which is compared with the <code>label</code> to populate a confusion matrix.</p>
+<h4>metrics()</h4><p>It computes a detailed metrics consisting of macro-averaged <em>precision</em>, <em>recall</em> and <em>f-measure</em> along with their label-wise values and the <em>confusion matrix</em>.</p>
+<h4>predict( input )</h4><p>Predicts the label for the <code>input</code>. If it is unable to predict then it returns a value <strong><code>'unknown'</code></strong>.</p>
+<h4>computeOdds( input )</h4><p>Computes the log base-2 of odds of every label for the <code>input</code>; and returns the array of <code>[ label, odds ]</code> in descending
+order of <code>odds</code>. Here is an example of the returned array:</p>
+<pre class="prettyprint source lang-javascript"><code>[
+  [ 'prepay', 6.169686751688911 ],
+  [ 'autoloan', -6.169686751688911 ]
+]</code></pre><p>If it is unable to make prediction then it returns a value <strong><code>[ [ 'unknown', 0 ] ]</code></strong>.</p>
+<h4>exportJSON()</h4><p>The learning can be exported as JSON text that may be saved in a file.</p>
+<h4>importJSON( json )</h4><p>An existing JSON learning can be imported for prediction. It is essential to <code>definePrepTasks()</code> and <code>consolidate()</code> before attempting to predict.</p>
+<h4>stats()</h4><p>Returns basic stats of learning in terms of count of samples under each label, total words, and the size of vocabulary.</p>
+<h4>reset()</h4><p>It completely resets the classifier by re-initializing all the learning related variables, except the preparatory tasks. It is useful during cross fold-validation.</p>
+<h2>Need Help?</h2><p>If you spot a bug and the same has not yet been reported, raise a new <a href="https://github.com/winkjs/wink-naive-bayes-text-classifier/issues">issue</a> or consider fixing it and sending a pull request.</p>
+<h2>Copyright &amp; License</h2><p><strong>wink-naive-bayes-text-classifier</strong> is copyright 2017 <a href="http://graype.in/">GRAYPE Systems Private Limited</a>.</p>
+<p>It is licensed under the under the terms of the GNU Affero General Public License as published by the Free
+Software Foundation, version 3 of the License.</p></article>
+    </section>
+
+
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Oct 09 2018 20:37:59 GMT+0530 (IST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+
+
+</body>
+</html>
