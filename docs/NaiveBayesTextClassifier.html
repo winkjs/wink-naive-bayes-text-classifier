@@ -26,7 +26,7 @@
 
 <nav>
     
-    <h2><a href="index.html">Home</a></h2><h2><a href="http://winkjs.org" target="_blank" >Wink JS</a></h2><h2><a href="https://github.com/winkjs/wink-naive-bayes-text-classifier" target="_blank" >Github</a></h2><h3>Classes</h3><ul><li><a href="NaiveBayesTextClassifier.html">NaiveBayesTextClassifier</a><ul class='methods'><li data-type='method'><a href="NaiveBayesTextClassifier.html#computeOdds">computeOdds</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#consolidate">consolidate</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#defineConfig">defineConfig</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#definePrepTasks">definePrepTasks</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#learn">learn</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#predict">predict</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#stats">stats</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#naiveBayesTextClassifier">naiveBayesTextClassifier</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h2><a href="http://winkjs.org" target="_blank" >Wink JS</a></h2><h2><a href="https://github.com/winkjs/wink-naive-bayes-text-classifier" target="_blank" >Github</a></h2><h3>Classes</h3><ul><li><a href="NaiveBayesTextClassifier.html">NaiveBayesTextClassifier</a><ul class='methods'><li data-type='method'><a href="NaiveBayesTextClassifier.html#computeOdds">computeOdds</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#consolidate">consolidate</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#defineConfig">defineConfig</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#definePrepTasks">definePrepTasks</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#exportJSON">exportJSON</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#importJSON">importJSON</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#learn">learn</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#predict">predict</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#reset">reset</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#stats">stats</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#naiveBayesTextClassifier">naiveBayesTextClassifier</a></li></ul>
 </nav>
 
 <div id="main">
@@ -87,7 +87,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line432">line 432</a>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line437">line 437</a>
     </li></ul></dd>
     
 
@@ -256,7 +256,7 @@ choice of <a href="#definePrepTasks"><code>preparatory tasks</code></a>.</p></td
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line384">line 384</a>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line388">line 388</a>
     </li></ul></dd>
     
 
@@ -382,7 +382,7 @@ the training data is too small for learning.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line253">line 253</a>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line256">line 256</a>
     </li></ul></dd>
     
 
@@ -654,7 +654,7 @@ or an attempt to define configuration is made after learning starts.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line295">line 295</a>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line299">line 299</a>
     </li></ul></dd>
     
 
@@ -832,6 +832,288 @@ return tokens i.e. array of strings. Please refer to example.</p></td>
 
     
 
+    <h4 class="name" id="exportJSON"><span class="type-signature"></span>exportJSON<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line537">line 537</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Exports the learning as a JSON, which may be saved as a text file for
+later use via <a href="#importjson"><code>importJSON()</code></a>.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>myClassifier.exportJSON();
+// returns JSON.</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Learning in JSON format.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="importJSON"><span class="type-signature"></span>importJSON<span class="signature">(json)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line596">line 596</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Imports an existing JSON learning for prediction.
+It is essential to <a href=""><code>definePrepTasks()</code></a>#definepreptasks and
+<a href="#consolidate"><code>consolidate()</code></a> before attempting to predict.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>json</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">JSON</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>containing learnings in as exported by <a href="#exportjson"><code>exportJSON</code></a>.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+    <div class="param-desc">
+    
+        <p>Error if <code>json</code> is invalid.</p>
+    
+    </div>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Always true.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
     <h4 class="name" id="learn"><span class="type-signature"></span>learn<span class="signature">(input, label)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
@@ -844,7 +1126,7 @@ return tokens i.e. array of strings. Please refer to example.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line342">line 342</a>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line346">line 346</a>
     </li></ul></dd>
     
 
@@ -1045,7 +1327,7 @@ into tokens on the fly.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line472">line 472</a>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line478">line 478</a>
     </li></ul></dd>
     
 
@@ -1199,6 +1481,120 @@ choice of <a href="#definePrepTasks"><code>preparatory tasks</code></a>.</p></td
 
     
 
+    <h4 class="name" id="reset"><span class="type-signature"></span>reset<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line561">line 561</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>It completely resets the classifier by re-initializing all the learning
+related variables, except the preparatory tasks. It is useful during
+cross fold-validation.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>myClassifier.reset();
+// -> true</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Always true.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
     <h4 class="name" id="stats"><span class="type-signature"></span>stats<span class="signature">()</span><span class="type-signature"> &rarr; {object}</span></h4>
 
     
@@ -1211,7 +1607,7 @@ choice of <a href="#definePrepTasks"><code>preparatory tasks</code></a>.</p></td
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line493">line 493</a>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line499">line 499</a>
     </li></ul></dd>
     
 
@@ -1338,7 +1734,7 @@ each label, total words, and the size of vocabulary.</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Oct 09 2018 20:37:59 GMT+0530 (IST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Oct 10 2018 16:31:02 GMT+0530 (IST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

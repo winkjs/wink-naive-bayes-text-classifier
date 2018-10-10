@@ -123,6 +123,7 @@ var naiveBayesTextClassifier = function () {
   }; // prepareInput()
 
   // #### Log Likelihood
+
   /**
    *
    * Computes the pre-definable smoothed log likelihood `( w | label )`.
@@ -150,6 +151,7 @@ var naiveBayesTextClassifier = function () {
   }; // logLikelihood()
 
   // #### Inverse Log Likelihood
+
   /**
    *
    * Computes the pre-definable smoothed inverse log likelihood `( w | label )`.
@@ -250,6 +252,7 @@ var naiveBayesTextClassifier = function () {
   // ### Exposed Functions
 
   // #### Define Config
+
   /**
    *
    * Defines the configuration for naive bayes text classifier. This
@@ -291,6 +294,7 @@ var naiveBayesTextClassifier = function () {
   }; // defineConfig()
 
   // #### Define Prep Tasks
+
   // It sets the `pTasks` and returns length of `pTask` array.
   /**
    * Defines the text preparation `tasks` to transform raw incoming
@@ -425,6 +429,7 @@ var naiveBayesTextClassifier = function () {
   }; // consolidate()
 
   // #### compute odds
+
   // Computes odds for every **label** for the given `input`, provided learnings
   // have been consolidated. They are sorted in descending order of their odds.
   // It throws error if the learnings have not been consolidated. Note, the odds
@@ -465,6 +470,7 @@ var naiveBayesTextClassifier = function () {
   };
 
   // #### Predict
+
   // Predicts the potential **label** for the given `input`, provided learnings
   // have been consolidated. If all the `input` tokens have never been seen
   // in past (i.e. absent in learnings), then the predicted label is `unknown`.
@@ -528,6 +534,16 @@ var naiveBayesTextClassifier = function () {
   // #### Export JSON
 
   // Returns the learnings, without any consolidation check, in JSON format.
+  /**
+   * Exports the learning as a JSON, which may be saved as a text file for
+   * later use via [`importJSON()`](#importjson).
+   *
+   * @method NaiveBayesTextClassifier#exportJSON
+   * @return {string} Learning in JSON format.
+   * @example
+   * myClassifier.exportJSON();
+   * // returns JSON.
+  */
   var exportJSON = function ( ) {
     var vocArray = [];
     // Vocubulary set needs to be converted to an array.
@@ -542,6 +558,17 @@ var naiveBayesTextClassifier = function () {
   // Resets the classifier completely by re-initializing all the learning
   // related variables, except the preparatory tasks. Useful during cross-
   // validation.
+  /**
+   * It completely resets the classifier by re-initializing all the learning
+   * related variables, except the preparatory tasks. It is useful during
+   * cross fold-validation.
+   *
+   * @method NaiveBayesTextClassifier#reset
+   * @return {boolean} Always true.
+   * @example
+   * myClassifier.reset();
+   * // -> true
+  */
   var reset = function () {
     // Reset values of variables that are associated with learning; Therefore
     // `pTasks` & `pTaskCount` are not re-initialized.
@@ -566,6 +593,16 @@ var naiveBayesTextClassifier = function () {
   // Imports the `json` in to learnings after validating the format of input JSON.
   // If validation fails then throws error; otherwise on success import it
   // returns `true`. Note, importing leads to resetting the classifier.
+  /**
+   * Imports an existing JSON learning for prediction.
+   * It is essential to [`definePrepTasks()`]()#definepreptasks and
+   * [`consolidate()`](#consolidate) before attempting to predict.
+   *
+   * @method NaiveBayesTextClassifier#importJSON
+   * @param {JSON} json containing learnings in as exported by [`exportJSON`](#exportjson).
+   * @return {boolean} Always true.
+   * @throws Error if `json` is invalid.
+  */
   var importJSON = function ( json ) {
     if ( !json ) {
       throw Error( 'winkNBTC: undefined or null JSON encountered, import failed!' );
