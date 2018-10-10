@@ -24,7 +24,7 @@
     "url": "git+https://github.com/winkjs/wink-naive-bayes-text-classifier.git"
   },
   "author": "Sanjaya Kumar Saxena",
-  "license": "AGPL-3.0",
+  "license": "AGPL-3.0-only",
   "bugs": {
     "url": "https://github.com/winkjs/wink-naive-bayes-text-classifier/issues"
   },
