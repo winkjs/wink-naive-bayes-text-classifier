@@ -9,7 +9,7 @@ Configurable [Naive Bayes](https://en.wikipedia.org/wiki/Naive_Bayes_classifier)
 
 Classify text, analyse sentiments, recognize user intents for chatbot using **`wink-naive-bayes-text-classifier`**. It is a part of [wink](http://winkjs.org/) — a growing family of high quality packages for Statistical Analysis, Natural Language Processing and Machine Learning in NodeJS.
 
-It's [API](#api) offers a rich set of features:
+It's [API](http://winkjs.org/wink-naive-bayes-text-classifier/NaiveBayesTextClassifier.html) offers a rich set of features:
 
 1. Configure text preparation task such as **amplify negation**, **tokenize**, **stem**, **remove stop words**, and **propagate negation** using [wink-nlp-utils](https://www.npmjs.com/package/wink-nlp-utils) or any other package of your choice.
 2. Configure **Lidstone** or **Lapalce** additive smoothing.
@@ -18,14 +18,14 @@ It's [API](#api) offers a rich set of features:
 5. Evaluate learning to perform n-fold cross validation.
 6. Obtain comprehensive metrics including **confusion matrix**, **precision**, and **recall**.
 
-## Installation
+### Installation
 Use [npm](https://www.npmjs.com/package/wink-naive-bayes-text-classifier) to install:
 ```
 npm install wink-naive-bayes-text-classifier --save
 ```
 
 
-## Example
+### Example
 ```javascript
 
 // Load Naive Bayes Text Classifier
@@ -66,67 +66,15 @@ console.log( nbc.predict( 'I want to pay my car loan early' ) );
 
 ```
 
-## API
+### Documentation
+Check out the [Naive Bayes Text Classifier](http://winkjs.org/wink-naive-bayes-text-classifier/) API documentation to learn more.
 
-
-#### definePrepTasks( tasks )
-
-Defines the text preparation `tasks` to transform raw incoming text into an array of tokens required during `learn()`, `evaluate()` and `predict()` operations. The `tasks` should be an array of functions. The first function in this array must accept a string as input; and the last function must return an array of tokens as JavaScript Strings. Each function must accept one input argument and return a single value. `definePrepTasks` returns the count of `tasks`.
-
-As illustrated in the usage, [wink-nlp-utils](https://www.npmjs.com/package/wink-nlp-utils) offers a rich set of such functions.
-
-#### defineConfig( config )
-Defines the configuration from the `config` object. This object must define 2 properties viz. (a) `considerOnlyPresence` and `smoothingFactor`. The `considerOnlyPresence` must be a boolean — true indicates a binarized model; default value is false. The `smoothingFactor` defines the value for additive smoothing; its default value is **1**. The `defineConfig()` must be called before attempting to learn.
-
-#### learn( input, label )
-Simply learns that the `input` belongs to the `label`. If the input is a JavaScript String, then `definePrepTasks()` must be called before learning.
-
-
-#### consolidate()
-Consolidates the learning. It is a prerequisite for `evaluate()` and/or `predict()`.
-
-#### evaluate( input, label )
-
-It is used to evaluate the learning against a test data set. The `input` is used to predict the label, which is compared with the `label` to populate a confusion matrix.
-
-#### metrics()
-
-It computes a detailed metrics consisting of macro-averaged *precision*, *recall* and *f-measure* along with their label-wise values and the *confusion matrix*.
-
-#### predict( input )
-Predicts the label for the `input`. If it is unable to predict then it returns a value **`'unknown'`**.
-
-#### computeOdds( input )
-Computes the log base-2 of odds of every label for the `input`; and returns the array of `[ label, odds ]` in descending
-order of `odds`. Here is an example of the returned array:
-
-```javascript
-[
-  [ 'prepay', 6.169686751688911 ],
-  [ 'autoloan', -6.169686751688911 ]
-]
-```
-
-If it is unable to make prediction then it returns a value **`[ [ 'unknown', 0 ] ]`**.
-
-#### exportJSON()
-The learning can be exported as JSON text that may be saved in a file.
-
-#### importJSON( json )
-An existing JSON learning can be imported for prediction. It is essential to `definePrepTasks()` and `consolidate()` before attempting to predict.
-
-#### stats()
-Returns basic stats of learning in terms of count of samples under each label, total words, and the size of vocabulary.
-
-#### reset()
-It completely resets the classifier by re-initializing all the learning related variables, except the preparatory tasks. It is useful during cross fold-validation.
-
-## Need Help?
+### Need Help?
 If you spot a bug and the same has not yet been reported, raise a new [issue](https://github.com/winkjs/wink-naive-bayes-text-classifier/issues) or consider fixing it and sending a pull request.
 
 
-## Copyright & License
-**wink-naive-bayes-text-classifier** is copyright 2017 [GRAYPE Systems Private Limited](http://graype.in/).
+### Copyright & License
+**wink-naive-bayes-text-classifier** is copyright 2017-18 [GRAYPE Systems Private Limited](http://graype.in/).
 
 It is licensed under the under the terms of the GNU Affero General Public License as published by the Free
 Software Foundation, version 3 of the License.
