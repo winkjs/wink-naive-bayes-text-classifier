@@ -645,9 +645,24 @@ var naiveBayesTextClassifier = function () {
   // Evaluates the prediction using the `input` and its known `label`. It
   // accordingly updates the confusion matrix. If the `label` is unknown
   // then it throws error; errors may be thrown by the `predict()`. If
-  // prediction fails (nunknown), then it does not uppdate
+  // prediction fails (unknown), then it does not uppdate
   // the confusion matrix and returns `false`; otherwise it updates the matrix
   // and returns `true`.
+  /**
+   *
+   * Evaluates the learning against a test data set.
+   * The `input` is used to predict the class label, which is compared with the
+   * actual class `label` to populate confusion matrix incrementally.
+   *
+   * @method NaiveBayesTextClassifier#evaluate
+   * @param {String|String[]} input is either text or tokens determined by the
+   * choice of [`preparatory tasks`](#definePrepTasks).
+   * @param {string} label of class to which `input` belongs.
+   * @return {boolean} Always true.
+   * @example
+   * myClassifier.evaluate( 'can i close my loan', 'prepay' );
+   * // -> true
+  */
   var evaluate = function ( input, label ) {
     // In case of unknown label, indicate failure
     if ( !samples[ label ] ) {
@@ -671,6 +686,47 @@ var naiveBayesTextClassifier = function () {
   // Computes the metrics from the confusion matrix built during the evaluation
   // phase via `evaluate()`. In absence of evaluations, it throws error; otherwise
   // it returns an object containing summary metrics along with the details.
+  /**
+   *
+   * Computes a detailed metrics consisting of macro-averaged precision, recall
+   * and f-measure along with their label-wise values and the confusion matrix.
+   *
+   * @method NaiveBayesTextClassifier#metrics
+   * @return {object} Detailed metrics.
+   * @example
+   * // Assuming that evaluation has been already carried out
+   * JSON.stringify( myClassifier.metrics(), null, 2 );
+   * // -> {
+   * //      "avgPrecision": 0.75,
+   * //      "avgRecall": 0.75,
+   * //      "avgFMeasure": 0.6667,
+   * //      "details": {
+   * //        "confusionMatrix": {
+   * //          "prepay": {
+   * //            "prepay": 1,
+   * //            "autoloan": 1
+   * //          },
+   * //          "autoloan": {
+   * //            "prepay": 0,
+   * //            "autoloan": 1
+   * //          }
+   * //        },
+   * //        "precision": {
+   * //          "prepay": 0.5,
+   * //          "autoloan": 1
+   * //        },
+   * //        "recall": {
+   * //          "prepay": 1,
+   * //          "autoloan": 0.5
+   * //        },
+   * //        "fmeasure": {
+   * //          "prepay": 0.6667,
+   * //          "autoloan": 0.6667
+   * //        }
+   * //      }
+   * //    }
+   * @throws Error if attempt to generate metrics is made prior to proper evaluation.
+  */
   var metrics = function () {
     if ( !evaluated ) {
       throw Error( 'winkNBTC: metrics can not be computed before evaluation.' );

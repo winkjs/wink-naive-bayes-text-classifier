@@ -26,7 +26,7 @@
 
 <nav>
     
-    <h2><a href="index.html">Home</a></h2><h2><a href="http://winkjs.org" target="_blank" >Wink JS</a></h2><h2><a href="https://github.com/winkjs/wink-naive-bayes-text-classifier" target="_blank" >Github</a></h2><h3>Classes</h3><ul><li><a href="NaiveBayesTextClassifier.html">NaiveBayesTextClassifier</a><ul class='methods'><li data-type='method'><a href="NaiveBayesTextClassifier.html#computeOdds">computeOdds</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#consolidate">consolidate</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#defineConfig">defineConfig</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#definePrepTasks">definePrepTasks</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#exportJSON">exportJSON</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#importJSON">importJSON</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#learn">learn</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#predict">predict</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#reset">reset</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#stats">stats</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#naiveBayesTextClassifier">naiveBayesTextClassifier</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h2><a href="http://winkjs.org" target="_blank" >Wink JS</a></h2><h2><a href="https://github.com/winkjs/wink-naive-bayes-text-classifier" target="_blank" >Github</a></h2><h3>Classes</h3><ul><li><a href="NaiveBayesTextClassifier.html">NaiveBayesTextClassifier</a><ul class='methods'><li data-type='method'><a href="NaiveBayesTextClassifier.html#computeOdds">computeOdds</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#consolidate">consolidate</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#defineConfig">defineConfig</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#definePrepTasks">definePrepTasks</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#evaluate">evaluate</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#exportJSON">exportJSON</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#importJSON">importJSON</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#learn">learn</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#metrics">metrics</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#predict">predict</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#reset">reset</a></li><li data-type='method'><a href="NaiveBayesTextClassifier.html#stats">stats</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#naiveBayesTextClassifier">naiveBayesTextClassifier</a></li></ul>
 </nav>
 
 <div id="main">
@@ -832,6 +832,196 @@ return tokens i.e. array of strings. Please refer to example.</p></td>
 
     
 
+    <h4 class="name" id="evaluate"><span class="type-signature"></span>evaluate<span class="signature">(input, label)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line651">line 651</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Evaluates the learning against a test data set.
+The <code>input</code> is used to predict the class label, which is compared with the
+actual class <code>label</code> to populate confusion matrix incrementally.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>myClassifier.evaluate( 'can i close my loan', 'prepay' );
+// -> true</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>input</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Array.&lt;String></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>is either text or tokens determined by the
+choice of <a href="#definePrepTasks"><code>preparatory tasks</code></a>.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>label</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>of class to which <code>input</code> belongs.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Always true.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
     <h4 class="name" id="exportJSON"><span class="type-signature"></span>exportJSON<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
@@ -1315,6 +1505,160 @@ into tokens on the fly.</p></td>
 
     
 
+    <h4 class="name" id="metrics"><span class="type-signature"></span>metrics<span class="signature">()</span><span class="type-signature"> &rarr; {object}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line689">line 689</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Computes a detailed metrics consisting of macro-averaged precision, recall
+and f-measure along with their label-wise values and the confusion matrix.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Assuming that evaluation has been already carried out
+JSON.stringify( myClassifier.metrics(), null, 2 );
+// -> {
+//      "avgPrecision": 0.75,
+//      "avgRecall": 0.75,
+//      "avgFMeasure": 0.6667,
+//      "details": {
+//        "confusionMatrix": {
+//          "prepay": {
+//            "prepay": 1,
+//            "autoloan": 1
+//          },
+//          "autoloan": {
+//            "prepay": 0,
+//            "autoloan": 1
+//          }
+//        },
+//        "precision": {
+//          "prepay": 0.5,
+//          "autoloan": 1
+//        },
+//        "recall": {
+//          "prepay": 1,
+//          "autoloan": 0.5
+//        },
+//        "fmeasure": {
+//          "prepay": 0.6667,
+//          "autoloan": 0.6667
+//        }
+//      }
+//    }</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+    <div class="param-desc">
+    
+        <p>Error if attempt to generate metrics is made prior to proper evaluation.</p>
+    
+    </div>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Detailed metrics.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
     <h4 class="name" id="predict"><span class="type-signature"></span>predict<span class="signature">(input)</span><span class="type-signature"> &rarr; {String}</span></h4>
 
     
@@ -1734,7 +2078,7 @@ each label, total words, and the size of vocabulary.</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Oct 10 2018 16:31:02 GMT+0530 (IST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Oct 10 2018 17:09:37 GMT+0530 (IST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
