@@ -7,9 +7,7 @@ Configurable [Naive Bayes](https://en.wikipedia.org/wiki/Naive_Bayes_classifier)
 
 <img align="right" src="https://decisively.github.io/wink-logos/logo-title.png" width="100px" >
 
-Classify text, analyse sentiments, recognize user intents for chatbot using **`wink-naive-bayes-text-classifier`**. It is a part of [wink](http://winkjs.org/) — a growing family of high quality packages for Statistical Analysis, Natural Language Processing and Machine Learning in NodeJS.
-
-It's [API](http://winkjs.org/wink-naive-bayes-text-classifier/NaiveBayesTextClassifier.html) offers a rich set of features:
+Classify text, analyse sentiments, recognize user intents for chatbot using **`wink-naive-bayes-text-classifier`**. It's [API](http://winkjs.org/wink-naive-bayes-text-classifier/NaiveBayesTextClassifier.html) offers a rich set of features:
 
 1. Configure text preparation task such as **amplify negation**, **tokenize**, **stem**, **remove stop words**, and **propagate negation** using [wink-nlp-utils](https://www.npmjs.com/package/wink-nlp-utils) or any other package of your choice.
 2. Configure **Lidstone** or **Lapalce** additive smoothing.
@@ -72,9 +70,11 @@ Check out the [Naive Bayes Text Classifier](http://winkjs.org/wink-naive-bayes-t
 ### Need Help?
 If you spot a bug and the same has not yet been reported, raise a new [issue](https://github.com/winkjs/wink-naive-bayes-text-classifier/issues) or consider fixing it and sending a pull request.
 
+### About wink
+[Wink](http://winkjs.org/) is a family of open source packages for **Statistical Analysis**, **Natural Language Processing** and **Machine Learning** in NodeJS. The code is **thoroughly documented** for easy human comprehension and has a **test coverage of ~100%** for reliability to build production grade solutions.
+
 
 ### Copyright & License
 **wink-naive-bayes-text-classifier** is copyright 2017-18 [GRAYPE Systems Private Limited](http://graype.in/).
 
-It is licensed under the under the terms of the GNU Affero General Public License as published by the Free
-Software Foundation, version 3 of the License.
+It is licensed under the terms of the MIT License.
