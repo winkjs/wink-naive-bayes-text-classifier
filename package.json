@@ -45,5 +45,6 @@
   "dependencies": {
     "wink-helpers": "^2.0.0",
     "wink-nlp-utils": "^2.0.0"
-  }
+  },
+  "runkitExampleFilename": "./runkit/example.js"
 }

@@ -64,6 +64,8 @@ console.log( nbc.predict( 'I want to pay my car loan early' ) );
 
 ```
 
+Try [experimenting with this example on Runkit](https://npm.runkit.com/wink-naive-bayes-text-classifier) in the browser.
+
 ### Documentation
 Check out the [Naive Bayes Text Classifier](http://winkjs.org/wink-naive-bayes-text-classifier/) API documentation to learn more.
 
