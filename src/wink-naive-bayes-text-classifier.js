@@ -272,7 +272,7 @@ var naiveBayesTextClassifier = function () {
    * @example
    * myClassifier.defineConfig( { considerOnlyPresence: true, smoothingFactor: 0.5 } );
    * // -> true
-   * @throws Error if `cfg` is not a valid Javascript object, or `smoothingFactor` is invalid,
+   * @throws Error if `cfg` is not a valid JavaScript object, or `smoothingFactor` is invalid,
    * or an attempt to define configuration is made after learning starts.
   */
   var defineConfig = function ( cfg ) {
@@ -285,7 +285,7 @@ var naiveBayesTextClassifier = function () {
     config.considerOnlyPresence = ( typeof cfg.considerOnlyPresence === 'boolean' ) ?
                                     cfg.considerOnlyPresence : false;
 
-    // If smoothing factor is undefined set it to lapalce add+1 smoothing.
+    // If smoothing factor is undefined set it to Laplace add+1 smoothing.
     var sf = ( cfg.smoothingFactor === undefined ) ? 1 : parseFloat( cfg.smoothingFactor );
     // Throw error for a value beyond 0-1 or NaN.
     if ( isNaN( sf ) || ( sf < 0 ) || ( sf > 1 ) ) {
