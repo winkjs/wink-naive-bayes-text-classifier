@@ -3,7 +3,7 @@
 
 Configurable [Naive Bayes](https://en.wikipedia.org/wiki/Naive_Bayes_classifier) Classifier for text with cross-validation support
 
-### [![Build Status](https://api.travis-ci.org/winkjs/wink-naive-bayes-text-classifier.svg?branch=master)](https://travis-ci.org/winkjs/wink-naive-bayes-text-classifier) [![Coverage Status](https://coveralls.io/repos/github/winkjs/wink-naive-bayes-text-classifier/badge.svg?branch=master)](https://coveralls.io/github/winkjs/wink-naive-bayes-text-classifier?branch=master) [![Inline docs](http://inch-ci.org/github/winkjs/wink-naive-bayes-text-classifier.svg?branch=master)](http://inch-ci.org/github/winkjs/wink-naive-bayes-text-classifier) [![dependencies Status](https://david-dm.org/winkjs/wink-naive-bayes-text-classifier/status.svg)](https://david-dm.org/winkjs/wink-naive-bayes-text-classifier) [![devDependencies Status](https://david-dm.org/winkjs/wink-naive-bayes-text-classifier/dev-status.svg)](https://david-dm.org/winkjs/wink-naive-bayes-text-classifier?type=dev) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/winkjs/Lobby)
+### [![Build Status](https://api.travis-ci.org/winkjs/wink-naive-bayes-text-classifier.svg?branch=master)](https://travis-ci.org/winkjs/wink-naive-bayes-text-classifier) [![Coverage Status](https://coveralls.io/repos/github/winkjs/wink-naive-bayes-text-classifier/badge.svg?branch=master)](https://coveralls.io/github/winkjs/wink-naive-bayes-text-classifier?branch=master) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/winkjs/Lobby)
 
 <img align="right" src="https://decisively.github.io/wink-logos/logo-title.png" width="100px" >
 
@@ -73,10 +73,10 @@ Check out the [Naive Bayes Text Classifier](http://winkjs.org/wink-naive-bayes-t
 If you spot a bug and the same has not yet been reported, raise a new [issue](https://github.com/winkjs/wink-naive-bayes-text-classifier/issues) or consider fixing it and sending a pull request.
 
 ### About wink
-[Wink](http://winkjs.org/) is a family of open source packages for **Statistical Analysis**, **Natural Language Processing** and **Machine Learning** in NodeJS. The code is **thoroughly documented** for easy human comprehension and has a **test coverage of ~100%** for reliability to build production grade solutions.
+[Wink](http://winkjs.org/) is a family of open source packages for **Natural Language Processing**, **Statistical Analysis** and **Machine Learning** in NodeJS. The code is **thoroughly documented** for easy human comprehension and has a **test coverage of ~100%** for reliability to build production grade solutions.
 
 
 ### Copyright & License
-**wink-naive-bayes-text-classifier** is copyright 2017-19 [GRAYPE Systems Private Limited](http://graype.in/).
+**wink-naive-bayes-text-classifier** is copyright 2017-22 [GRAYPE Systems Private Limited](http://graype.in/).
 
 It is licensed under the terms of the MIT License.
