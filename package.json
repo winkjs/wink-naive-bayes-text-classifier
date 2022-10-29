@@ -35,7 +35,7 @@
     "chai": "^4.3.6",
     "coveralls": "^3.1.1",
     "docdash": "github:winkjs/docdash",
-    "docker": "^0.2.14",
+    "docker": "^1.0.0",
     "eslint": "^8.26.0",
     "jsdoc": "^3.6.11",
     "mocha": "^10.1.0",
