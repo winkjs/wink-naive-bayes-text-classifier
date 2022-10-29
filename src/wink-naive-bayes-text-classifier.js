@@ -285,7 +285,7 @@ var naiveBayesTextClassifier = function () {
     config.considerOnlyPresence = ( typeof cfg.considerOnlyPresence === 'boolean' ) ?
                                     cfg.considerOnlyPresence : false;
 
-    // If smoothing factor is undefined set it to lapalce add+1 smoothing.
+    // If smoothing factor is undefined set it to laplace add+1 smoothing.
     var sf = ( cfg.smoothingFactor === undefined ) ? 1 : parseFloat( cfg.smoothingFactor );
     // Throw error for a value beyond 0-1 or NaN.
     if ( isNaN( sf ) || ( sf < 0 ) || ( sf > 1 ) ) {
