@@ -9,7 +9,7 @@ Configurable [Naive Bayes](https://en.wikipedia.org/wiki/Naive_Bayes_classifier)
 
 Classify text, analyse sentiments, recognize user intents for chatbot using **`wink-naive-bayes-text-classifier`**. Its [API](http://winkjs.org/wink-naive-bayes-text-classifier/NaiveBayesTextClassifier.html) offers a rich set of features:
 
-1. Configure text preparation task such as **amplify negation**, **tokenize**, **stem**, **remove stop words**, and **propagate negation** using [wink-nlp-utils](https://www.npmjs.com/package/wink-nlp-utils) or any other package of your choice.
+1. Preprocess text using [wink-nlp](https://www.npmjs.com/package/wink-nlp) — tokenize, stem, remove stop words, and handle negation. It also supports [Named Entity Recognition](https://winkjs.org/wink-nlp/getting-started.html) to further enhance preprocessing.
 2. Configure **Lidstone** or **Laplace** additive smoothing.
 3. Configure **Multinomial** or **Binarized Multinomial** Naive Bayes model.
 4. Export and import learnings in JSON format that can be easily saved on hard-disk.
@@ -30,17 +30,25 @@ npm install wink-naive-bayes-text-classifier --save
 var Classifier = require( 'wink-naive-bayes-text-classifier' );
 // Instantiate
 var nbc = Classifier();
-// Load NLP utilities
-var nlp = require( 'wink-nlp-utils' );
-// Configure preparation tasks
-nbc.definePrepTasks( [
-  // Simple tokenizer
-  nlp.string.tokenize0,
-  // Common Stop Words Remover
-  nlp.tokens.removeWords,
-  // Stemmer to obtain base word
-  nlp.tokens.stem
-] );
+// Load wink nlp and its model
+const winkNLP = require( 'wink-nlp' );
+// Load language model
+const model = require( 'wink-eng-lite-web-model' );
+const nlp = winkNLP( model );
+const its = nlp.its;
+
+const prepTask = function ( text ) {
+  const tokens = [];
+  nlp.readDoc(text)
+      .tokens()
+      // Use only words ignoring punctuations etc and from them remove stop words
+      .filter( (t) => ( t.out(its.type) === 'word' && !t.out(its.stopWordFlag) ) )
+      // Handle negation and extract stem of the word
+      .each( (t) => tokens.push( (t.out(its.negationFlag)) ? '!' + t.out(its.stem) : t.out(its.stem) ) );
+
+  return tokens;
+};
+nbc.definePrepTasks( [ prepTask ] );
 // Configure behavior
 nbc.defineConfig( { considerOnlyPresence: true, smoothingFactor: 0.5 } );
 // Train!
@@ -61,7 +69,6 @@ console.log( nbc.predict( 'I would like to borrow 50000 to buy a new Audi R8 in 
 // -> autoloan
 console.log( nbc.predict( 'I want to pay my car loan early' ) );
 // -> prepay
-
 ```
 
 Try [experimenting with this example on Runkit](https://npm.runkit.com/wink-naive-bayes-text-classifier) in the browser.
