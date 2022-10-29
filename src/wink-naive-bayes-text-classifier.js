@@ -2,7 +2,7 @@
 //     Configurable Naive Bayes Classifier for text
 //     with cross-validation support.
 //
-//     Copyright (C) 2017-19  GRAYPE Systems Private Limited
+//     Copyright (C) GRAYPE Systems Private Limited
 //
 //     This file is part of “wink-naive-bayes-text-classifier”.
 //
