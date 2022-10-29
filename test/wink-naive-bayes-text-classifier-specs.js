@@ -28,7 +28,21 @@
 var chai = require( 'chai' );
 var mocha = require( 'mocha' );
 var tnbc = require( '../src/wink-naive-bayes-text-classifier.js' );
-var prepare = require( 'wink-nlp-utils' );
+
+const winkNLP = require( 'wink-nlp' );
+const model = require( 'wink-eng-lite-web-model' );
+const nlp = winkNLP( model );
+const its = nlp.its;
+
+const tokenize0 = function ( text ) {
+  const tokens = nlp.readDoc(text).tokens().out();
+  return tokens;
+};
+
+const stem = function ( text ) {
+  const tokens = nlp.readDoc(text).tokens().out( its.stem );
+  return tokens;
+};
 
 var expect = chai.expect;
 var describe = mocha.describe;
@@ -38,7 +52,7 @@ var it = mocha.it;
 describe( 'definePrepTasks() Error Cases', function () {
   var prepTNBC = tnbc();
   var prepTasks = [
-    { whenInputIs: [ prepare.string.incorrect, prepare.string.lowerCase ], expectedOutputIs: 'winkNBTC: each task should be a function, instead found: undefined' },
+    { whenInputIs: [ undefined, ( p ) => ( p ) ], expectedOutputIs: 'winkNBTC: each task should be a function, instead found: undefined' },
     { whenInputIs: null, expectedOutputIs: 'winkNBTC: tasks should be an array, instead found: null' },
     { whenInputIs: undefined, expectedOutputIs: 'winkNBTC: tasks should be an array, instead found: undefined' },
     { whenInputIs: 1, expectedOutputIs: 'winkNBTC: tasks should be an array, instead found: 1' },
@@ -53,10 +67,11 @@ describe( 'definePrepTasks() Error Cases', function () {
 }
 );
 
+
 describe( 'definePrepTasks() Proper Cases', function () {
   var prepTNBC = tnbc();
   var prepTasks = [
-    { whenInputIs: [ prepare.string.tokenize0, prepare.string.stem ], expectedOutputIs: 2 },
+    { whenInputIs: [ stem, ( p ) => ( p ) ], expectedOutputIs: 2 },
     { whenInputIs: [ ], expectedOutputIs: 0 }
   ];
 
@@ -83,7 +98,7 @@ describe( 'textNBC() with considerOnlyPresence as true', function () {
   ];
 
   it( 'definePrepTasks should return 1', function () {
-    expect( learnTNBC.definePrepTasks( [ prepare.string.tokenize0 ] ) ).to.equal( 1 );
+    expect( learnTNBC.definePrepTasks( [ tokenize0 ] ) ).to.equal( 1 );
   } );
   it( 'defineConfig should return true', function () {
     expect( learnTNBC.defineConfig.bind( null, 1 ) ).to.throw( 'winkNBTC: config must be an object, instead found: number' );
@@ -145,7 +160,7 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
   ];
 
   it( 'definePrepTasks should return 1', function () {
-    expect( learnTNBC.definePrepTasks( [ prepare.string.tokenize0 ] ) ).to.equal( 1 );
+    expect( learnTNBC.definePrepTasks( [ tokenize0 ] ) ).to.equal( 1 );
   } );
 
   examples.forEach( function ( example ) {
@@ -207,7 +222,7 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
   ];
   // Test prepTasks definition.
   it( 'definePrepTasks should return 1', function () {
-    expect( learnTNBC.definePrepTasks( [ prepare.string.tokenize0 ] ) ).to.equal( 1 );
+    expect( learnTNBC.definePrepTasks( [ tokenize0 ] ) ).to.equal( 1 );
   } );
   it( 'defineConfig should return true', function () {
     expect( learnTNBC.defineConfig( { considerOnlyPresence: true, smoothingFactor: 0 } ) ).to.equal( true );
@@ -253,10 +268,10 @@ describe( 'textNBC() with considerOnlyPresence as undefined', function () {
   ];
   // Test prepTasks definition.
   it( 'definePrepTasks should return 1', function () {
-    expect( learnTNBC.definePrepTasks( [ prepare.string.tokenize0 ] ) ).to.equal( 1 );
+    expect( learnTNBC.definePrepTasks( [ tokenize0 ] ) ).to.equal( 1 );
   } );
   it( 'definePrepTasks should return 1', function () {
-    expect( anotherTNBC.definePrepTasks( [ prepare.string.tokenize0 ] ) ).to.equal( 1 );
+    expect( anotherTNBC.definePrepTasks( [ tokenize0 ] ) ).to.equal( 1 );
   } );
   it( 'defineConfig should throw error with illegal smoothingFactor value', function () {
     expect( learnTNBC.defineConfig.bind( null, { considerOnlyPresence: 1, smoothingFactor: 'x' } ) ).to.throw( 'winkNBTC: smoothing factor must be a number between 0 & 1, instead found: null' );
