@@ -42,8 +42,9 @@
     "nyc": "^15.1.0"
   },
   "dependencies": {
+    "wink-eng-lite-web-model": "^1.4.3",
     "wink-helpers": "^2.0.0",
-    "wink-nlp-utils": "^2.0.4"
+    "wink-nlp": "^1.12.2"
   },
   "runkitExampleFilename": "./runkit/example.js"
 }
