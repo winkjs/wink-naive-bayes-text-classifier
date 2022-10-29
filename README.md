@@ -9,7 +9,7 @@ Configurable [Naive Bayes](https://en.wikipedia.org/wiki/Naive_Bayes_classifier)
 
 Classify text, analyse sentiments, recognize user intents for chatbot using **`wink-naive-bayes-text-classifier`**. Its [API](http://winkjs.org/wink-naive-bayes-text-classifier/NaiveBayesTextClassifier.html) offers a rich set of features:
 
-1. Preprocess text using [wink-nlp](https://www.npmjs.com/package/wink-nlp) — tokenize, stem, remove stop words, and handle negation. It also supports [Named Entity Recognition](https://winkjs.org/wink-nlp/getting-started.html) to further enhance preprocessing.
+1. Preprocess text using [wink-nlp](https://www.npmjs.com/package/wink-nlp) — tokenize, stem, remove stop words, and handle negation. It also supports [Named Entity Recognition](https://winkjs.org/wink-nlp/getting-started.html) to further enhance preprocessing. A single winkNLP based helper function for preparing text is available that (a) tokenizes, (b) removes punctuations, symbols, numerals, URLs, stop words and (c) stems. It can be required from `wink-naive-bayes-text-classifier/src/prep-text.js`.
 2. Configure **Lidstone** or **Laplace** additive smoothing.
 3. Configure **Multinomial** or **Binarized Multinomial** Naive Bayes model.
 4. Export and import learnings in JSON format that can be easily saved on hard-disk.

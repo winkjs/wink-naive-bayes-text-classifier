@@ -241,7 +241,7 @@ function openMember() {
     <!--
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line440">line 440</a>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line434">line 434</a>
     </li></ul></dd>
     -->
 
@@ -420,7 +420,7 @@ choice of <a href="#definePrepTasks"><code>preparatory tasks</code></a>.</p></td
     <!--
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line391">line 391</a>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line385">line 385</a>
     </li></ul></dd>
     -->
 
@@ -884,7 +884,8 @@ text into tokens required during
 <a href="#learn"><code>learn()</code></a>, <a href="#evaluate"><code>evaluate()</code></a> and <a href="#predict"><code>predict()</code></a> operations.
 The <code>tasks</code> should be an array of functions;
 using these function a simple pipeline is built to serially transform the
-input to the output.</p>
+input to the output. A single helper function for preparing text is available that (a) tokenizes,
+(b) removes punctuations, symbols, numerals, URLs, stop words and (c) stems.</p>
 </div>
 
 
@@ -898,17 +899,10 @@ input to the output.</p>
     <h5>Example</h5>
     
     <pre class="prettyprint"><code>// Load wink NLP utilities
-var nlp = require( 'wink-nlp-utils' );
+var prepText = require( 'wink-naive-bayes-text-classifier/src/prep-text.js' );
 // Define the text preparation tasks.
-myClassifier.definePrepTasks( [
-  // Simple tokenizer to convert input text in to tokens
-  nlp.string.tokenize0,
-  // Removes stop words from the input tokens
-  nlp.tokens.removeWords,
-  // Stems each token into its base form
-  nlp.tokens.stem
-] );
-// -> 3</code></pre>
+myClassifier.definePrepTasks( [ prepText ] );
+// -> 1</code></pre>
 
 
 
@@ -1039,7 +1033,7 @@ return tokens i.e. array of strings. Please refer to example.</p></td>
     <!--
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line654">line 654</a>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line648">line 648</a>
     </li></ul></dd>
     -->
 
@@ -1240,7 +1234,7 @@ choice of <a href="#definePrepTasks"><code>preparatory tasks</code></a>.</p></td
     <!--
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line540">line 540</a>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line534">line 534</a>
     </li></ul></dd>
     -->
 
@@ -1362,7 +1356,7 @@ later use via <a href="#importjson"><code>importJSON()</code></a>.</p>
     <!--
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line599">line 599</a>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line593">line 593</a>
     </li></ul></dd>
     -->
 
@@ -1541,7 +1535,7 @@ It is essential to <a href=""><code>definePrepTasks()</code></a>#definepreptasks
     <!--
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line349">line 349</a>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line343">line 343</a>
     </li></ul></dd>
     -->
 
@@ -1753,7 +1747,7 @@ into tokens on the fly.</p></td>
     <!--
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line692">line 692</a>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line686">line 686</a>
     </li></ul></dd>
     -->
 
@@ -1916,7 +1910,7 @@ JSON.stringify( myClassifier.metrics(), null, 2 );
     <!--
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line481">line 481</a>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line475">line 475</a>
     </li></ul></dd>
     -->
 
@@ -2092,7 +2086,7 @@ choice of <a href="#definePrepTasks"><code>preparatory tasks</code></a>.</p></td
     <!--
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line564">line 564</a>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line558">line 558</a>
     </li></ul></dd>
     -->
 
@@ -2215,7 +2209,7 @@ cross fold-validation.</p>
     <!--
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line502">line 502</a>
+        <a href="wink-naive-bayes-text-classifier.js.html">wink-naive-bayes-text-classifier.js</a>, <a href="wink-naive-bayes-text-classifier.js.html#line496">line 496</a>
     </li></ul></dd>
     -->
 
@@ -2355,7 +2349,7 @@ each label, total words, and the size of vocabulary.</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a> on Sat Oct 29 2022 20:03:30 GMT+0530 (India Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a> on Sat Oct 29 2022 20:38:13 GMT+0530 (India Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

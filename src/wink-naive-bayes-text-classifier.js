@@ -305,7 +305,8 @@ var naiveBayesTextClassifier = function () {
    * [`learn()`](#learn), [`evaluate()`](#evaluate) and [`predict()`](#predict) operations.
    * The `tasks` should be an array of functions;
    * using these function a simple pipeline is built to serially transform the
-   * input to the output.
+   * input to the output. A single helper function for preparing text is available that (a) tokenizes,
+   * (b) removes punctuations, symbols, numerals, URLs, stop words and (c) stems.
    *
    * @method NaiveBayesTextClassifier#definePrepTasks
    * @param {function[]} tasks the first function
@@ -314,17 +315,10 @@ var naiveBayesTextClassifier = function () {
    * @return {number} The number of functions in `task` array.
    * @example
    * // Load wink NLP utilities
-   * var nlp = require( 'wink-nlp-utils' );
+   * var prepText = require( 'wink-naive-bayes-text-classifier/src/prep-text.js' );
    * // Define the text preparation tasks.
-   * myClassifier.definePrepTasks( [
-   *   // Simple tokenizer to convert input text in to tokens
-   *   nlp.string.tokenize0,
-   *   // Removes stop words from the input tokens
-   *   nlp.tokens.removeWords,
-   *   // Stems each token into its base form
-   *   nlp.tokens.stem
-   * ] );
-   * // -> 3
+   * myClassifier.definePrepTasks( [ prepText ] );
+   * // -> 1
    * @throws Error if `tasks` is not an array of functions.
   */
   var definePrepTasks = function ( tasks ) {
