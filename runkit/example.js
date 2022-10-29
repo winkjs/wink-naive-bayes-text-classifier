@@ -1,7 +1,7 @@
 // Load Naive Bayes Text Classifier
 var Classifier = require( 'wink-naive-bayes-text-classifier' );
 // Instantiate
-var nbc = Classifier();
+var nbc = Classifier(); // eslint-disable-line new-cap
 // Load NLP utilities
 var nlp = require( 'wink-nlp-utils' );
 // Configure preparation tasks
