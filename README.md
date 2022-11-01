@@ -7,14 +7,21 @@ Configurable [Naive Bayes](https://en.wikipedia.org/wiki/Naive_Bayes_classifier)
 
 <img align="right" src="https://decisively.github.io/wink-logos/logo-title.png" width="100px" >
 
-Classify text, analyse sentiments, recognize user intents for chatbot using **`wink-naive-bayes-text-classifier`**. Its [API](http://winkjs.org/wink-naive-bayes-text-classifier/NaiveBayesTextClassifier.html) offers a rich set of features:
+Classify text, analyse sentiments, recognize user intents for chatbot using **`wink-naive-bayes-text-classifier`**. Its [API](http://winkjs.org/wink-naive-bayes-text-classifier/NaiveBayesTextClassifier.html) offers a rich set of features including cross validation to compute confusion matrix, precision, and recall. It delivers impressive accuracy levels with right text pre-processing using [wink-nlp](https://www.npmjs.com/package/wink-nlp):
 
-1. Preprocess text using [wink-nlp](https://www.npmjs.com/package/wink-nlp) — tokenize, stem, remove stop words, and handle negation. It also supports [Named Entity Recognition](https://winkjs.org/wink-nlp/getting-started.html) to further enhance preprocessing. A single winkNLP based helper function for preparing text is available that (a) tokenizes, (b) removes punctuations, symbols, numerals, URLs, stop words and (c) stems. It can be required from `wink-naive-bayes-text-classifier/src/prep-text.js`.
-2. Configure **Lidstone** or **Laplace** additive smoothing.
-3. Configure **Multinomial** or **Binarized Multinomial** Naive Bayes model.
-4. Export and import learnings in JSON format that can be easily saved on hard-disk.
-5. Evaluate learning to perform n-fold cross validation.
-6. Obtain comprehensive metrics including **confusion matrix**, **precision**, and **recall**.
+| Dataset | Accuracy |
+| --- | --- |
+| **Sentiment Analysis**<br/>Amazon Product Review [Sentiment Labelled Sentences Data Set](https://archive.ics.uci.edu/ml/machine-learning-databases/00331/) at [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/index.php) | **90%** <br/> 800 training examples & 200 validation reviews |
+| **Intent Classification**<br/>Chatbot corpus from [NLU Evaluation Corpora](https://github.com/sebischair/NLU-Evaluation-Corpora) as mentioned in paper titled [Evaluating Natural Language Understanding Services for Conversational Question Answering Systems](https://aclanthology.org/W17-5522.pdf) | **99%** <br/>100 training examples & 106 validation |
+
+#### Text Pre-processing
+A winkNLP based helper function for general purpose text pre-processing is available that (a) tokenizes, (b) removes punctuations, symbols, numerals, URLs, stop words, (c) stems each token and (d) handles negations. It can be required from `wink-naive-bayes-text-classifier/src/prep-text.js`. WinkNLP's [Named Entity Recognition](https://winkjs.org/wink-nlp/getting-started.html) may be used to further enhance the pre-processing.
+
+#### Hyperparameters
+These include smoothing factor to control [additive smoothing](https://winkjs.org/wink-naive-bayes-text-classifier/NaiveBayesTextClassifier.html#defineConfig) and a [consider presence only flag](https://winkjs.org/wink-naive-bayes-text-classifier/NaiveBayesTextClassifier.html#defineConfig) to choose from Multinomial/Binarized naive bayes.
+
+The trained model can be exported as JSON and can be reloaded later for predictions.
+
 
 ### Installation
 Use [npm](https://www.npmjs.com/package/wink-naive-bayes-text-classifier) to install:
