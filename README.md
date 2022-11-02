@@ -1,7 +1,7 @@
 
 # wink-naive-bayes-text-classifier
 
-Configurable [Naive Bayes](https://en.wikipedia.org/wiki/Naive_Bayes_classifier) Classifier for text with cross-validation support
+Naive Bayes Text Classifier
 
 ### [![Build Status](https://app.travis-ci.com/winkjs/wink-naive-bayes-text-classifier.svg?branch=master)](https://app.travis-ci.com/winkjs/wink-naive-bayes-text-classifier) [![Coverage Status](https://coveralls.io/repos/github/winkjs/wink-naive-bayes-text-classifier/badge.svg?branch=master)](https://coveralls.io/github/winkjs/wink-naive-bayes-text-classifier?branch=master) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/winkjs/Lobby)
 
@@ -11,16 +11,16 @@ Classify text, analyse sentiments, recognize user intents for chatbot using **`w
 
 | Dataset | Accuracy |
 | --- | --- |
-| **Sentiment Analysis**<br/>Amazon Product Review [Sentiment Labelled Sentences Data Set](https://archive.ics.uci.edu/ml/machine-learning-databases/00331/) at [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/index.php) | **90%** <br/> 800 training examples & 200 validation reviews |
-| **Intent Classification**<br/>Chatbot corpus from [NLU Evaluation Corpora](https://github.com/sebischair/NLU-Evaluation-Corpora) as mentioned in paper titled [Evaluating Natural Language Understanding Services for Conversational Question Answering Systems](https://aclanthology.org/W17-5522.pdf) | **99%** <br/>100 training examples & 106 validation |
+| **Sentiment Analysis**<br/>Amazon Product Review [Sentiment Labelled Sentences Data Set](https://archive.ics.uci.edu/ml/machine-learning-databases/00331/) at [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/index.php) | **90%** <br/> 800 training examples & 200 validation reviews<br/><br/>Refer to `sentiment-analysis-example` directory for the reference code |
+| **Intent Classification**<br/>Chatbot corpus from [NLU Evaluation Corpora](https://github.com/sebischair/NLU-Evaluation-Corpora) as mentioned in paper titled [Evaluating Natural Language Understanding Services for Conversational Question Answering Systems](https://aclanthology.org/W17-5522.pdf) | **99%** <br/>100 training examples & 106 validation<br/><br/>Refer to `chatbot-example` directory for the reference code |
 
 #### Text Pre-processing
-A winkNLP based helper function for general purpose text pre-processing is available that (a) tokenizes, (b) removes punctuations, symbols, numerals, URLs, stop words, (c) stems each token and (d) handles negations. It can be required from `wink-naive-bayes-text-classifier/src/prep-text.js`. WinkNLP's [Named Entity Recognition](https://winkjs.org/wink-nlp/getting-started.html) may be used to further enhance the pre-processing.
+A [winkNLP](https://github.com/winkjs/wink-nlp) based helper function for general purpose text pre-processing is available that (a) tokenizes, (b) removes punctuations, symbols, numerals, URLs, stop words, (c) stems each token and (d) handles negations. It can be required from `wink-naive-bayes-text-classifier/src/prep-text.js`. WinkNLP's [Named Entity Recognition](https://winkjs.org/wink-nlp/getting-started.html) may be used to further enhance the pre-processing.
 
 #### Hyperparameters
 These include smoothing factor to control [additive smoothing](https://winkjs.org/wink-naive-bayes-text-classifier/NaiveBayesTextClassifier.html#defineConfig) and a [consider presence only flag](https://winkjs.org/wink-naive-bayes-text-classifier/NaiveBayesTextClassifier.html#defineConfig) to choose from Multinomial/Binarized naive bayes.
 
-The trained model can be exported as JSON and can be reloaded later for predictions.
+The trained model can be [exported](https://winkjs.org/wink-naive-bayes-text-classifier/NaiveBayesTextClassifier.html#exportJSON) as JSON and can be [reloaded](https://winkjs.org/wink-naive-bayes-text-classifier/NaiveBayesTextClassifier.html#importJSON) later for predictions.
 
 
 ### Installation
