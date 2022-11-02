@@ -1,16 +1,16 @@
 {
   "name": "wink-naive-bayes-text-classifier",
   "version": "2.1.0",
-  "description": "Configurable Naive Bayes Classifier for text with cross-validation support",
+  "description": "Naive Bayes Text Classifier",
   "keywords": [
     "Naive Bayes",
     "Classifier",
     "Machine Learning",
-    "Cross-validation",
     "NLP",
     "Natural Language Processing",
-    "AI",
-    "wink"
+    "Chatbot",
+    "Sentiment Analysis",
+    "winkNLP"
   ],
   "main": "src/wink-naive-bayes-text-classifier.js",
   "scripts": {

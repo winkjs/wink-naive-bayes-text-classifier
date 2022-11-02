@@ -206,18 +206,33 @@ function openMember() {
 
     <section class="readme">
         <article><h1>wink-naive-bayes-text-classifier</h1>
-<p>Configurable <a href="https://en.wikipedia.org/wiki/Naive_Bayes_classifier">Naive Bayes</a> Classifier for text with cross-validation support</p>
+<p>Naive Bayes Text Classifier</p>
 <h3><a href="https://app.travis-ci.com/winkjs/wink-naive-bayes-text-classifier"><img src="https://app.travis-ci.com/winkjs/wink-naive-bayes-text-classifier.svg?branch=master" alt="Build Status"></a> <a href="https://coveralls.io/github/winkjs/wink-naive-bayes-text-classifier?branch=master"><img src="https://coveralls.io/repos/github/winkjs/wink-naive-bayes-text-classifier/badge.svg?branch=master" alt="Coverage Status"></a> <a href="https://gitter.im/winkjs/Lobby"><img src="https://img.shields.io/gitter/room/nwjs/nw.js.svg" alt="Gitter"></a></h3>
 <img align="right" src="https://decisively.github.io/wink-logos/logo-title.png" width="100px" >
-<p>Classify text, analyse sentiments, recognize user intents for chatbot using <strong><code>wink-naive-bayes-text-classifier</code></strong>. Its <a href="http://winkjs.org/wink-naive-bayes-text-classifier/NaiveBayesTextClassifier.html">API</a> offers a rich set of features:</p>
-<ol>
-<li>Preprocess text using <a href="https://www.npmjs.com/package/wink-nlp">wink-nlp</a> — tokenize, stem, remove stop words, and handle negation. It also supports <a href="https://winkjs.org/wink-nlp/getting-started.html">Named Entity Recognition</a> to further enhance preprocessing. A single winkNLP based helper function for preparing text is available that (a) tokenizes, (b) removes punctuations, symbols, numerals, URLs, stop words and (c) stems. It can be required from <code>wink-naive-bayes-text-classifier/src/prep-text.js</code>.</li>
-<li>Configure <strong>Lidstone</strong> or <strong>Laplace</strong> additive smoothing.</li>
-<li>Configure <strong>Multinomial</strong> or <strong>Binarized Multinomial</strong> Naive Bayes model.</li>
-<li>Export and import learnings in JSON format that can be easily saved on hard-disk.</li>
-<li>Evaluate learning to perform n-fold cross validation.</li>
-<li>Obtain comprehensive metrics including <strong>confusion matrix</strong>, <strong>precision</strong>, and <strong>recall</strong>.</li>
-</ol>
+<p>Classify text, analyse sentiments, recognize user intents for chatbot using <strong><code>wink-naive-bayes-text-classifier</code></strong>. Its <a href="http://winkjs.org/wink-naive-bayes-text-classifier/NaiveBayesTextClassifier.html">API</a> offers a rich set of features including cross validation to compute confusion matrix, precision, and recall. It delivers impressive accuracy levels with right text pre-processing using <a href="https://www.npmjs.com/package/wink-nlp">wink-nlp</a>:</p>
+<table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sentiment Analysis</strong><br/>Amazon Product Review <a href="https://archive.ics.uci.edu/ml/machine-learning-databases/00331/">Sentiment Labelled Sentences Data Set</a> at <a href="https://archive.ics.uci.edu/ml/index.php">UCI Machine Learning Repository</a></td>
+<td><strong>90%</strong> <br/> 800 training examples &amp; 200 validation reviews<br/><br/>Refer to <code>sentiment-analysis-example</code> directory for the reference code</td>
+</tr>
+<tr>
+<td><strong>Intent Classification</strong><br/>Chatbot corpus from <a href="https://github.com/sebischair/NLU-Evaluation-Corpora">NLU Evaluation Corpora</a> as mentioned in paper titled <a href="https://aclanthology.org/W17-5522.pdf">Evaluating Natural Language Understanding Services for Conversational Question Answering Systems</a></td>
+<td><strong>99%</strong> <br/>100 training examples &amp; 106 validation<br/><br/>Refer to <code>chatbot-example</code> directory for the reference code</td>
+</tr>
+</tbody>
+</table>
+<h4>Text Pre-processing</h4>
+<p>A <a href="https://github.com/winkjs/wink-nlp">winkNLP</a> based helper function for general purpose text pre-processing is available that (a) tokenizes, (b) removes punctuations, symbols, numerals, URLs, stop words, (c) stems each token and (d) handles negations. It can be required from <code>wink-naive-bayes-text-classifier/src/prep-text.js</code>. WinkNLP's <a href="https://winkjs.org/wink-nlp/getting-started.html">Named Entity Recognition</a> may be used to further enhance the pre-processing.</p>
+<h4>Hyperparameters</h4>
+<p>These include smoothing factor to control <a href="https://winkjs.org/wink-naive-bayes-text-classifier/NaiveBayesTextClassifier.html#defineConfig">additive smoothing</a> and a <a href="https://winkjs.org/wink-naive-bayes-text-classifier/NaiveBayesTextClassifier.html#defineConfig">consider presence only flag</a> to choose from Multinomial/Binarized naive bayes.</p>
+<p>The trained model can be <a href="https://winkjs.org/wink-naive-bayes-text-classifier/NaiveBayesTextClassifier.html#exportJSON">exported</a> as JSON and can be <a href="https://winkjs.org/wink-naive-bayes-text-classifier/NaiveBayesTextClassifier.html#importJSON">reloaded</a> later for predictions.</p>
 <h3>Installation</h3>
 <p>Use <a href="https://www.npmjs.com/package/wink-naive-bayes-text-classifier">npm</a> to install:</p>
 <pre class="prettyprint source"><code>npm install wink-naive-bayes-text-classifier --save
@@ -299,7 +314,7 @@ console.log( nbc.predict( 'I want to pay my car loan early' ) );
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a> on Sat Oct 29 2022 20:56:37 GMT+0530 (India Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a> on Wed Nov 02 2022 10:26:57 GMT+0530 (India Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
