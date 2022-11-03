@@ -10,7 +10,8 @@
     "Natural Language Processing",
     "Chatbot",
     "Sentiment Analysis",
-    "winkNLP"
+    "winkNLP",
+    "Text Classification"
   ],
   "main": "src/wink-naive-bayes-text-classifier.js",
   "scripts": {
