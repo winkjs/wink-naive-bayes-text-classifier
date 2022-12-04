@@ -29,6 +29,7 @@ Use [npm](https://www.npmjs.com/package/wink-naive-bayes-text-classifier) to ins
 npm install wink-naive-bayes-text-classifier --save
 ```
 
+> It requires Node.js version 16.x or 18.x.
 
 ### Example
 ```javascript
