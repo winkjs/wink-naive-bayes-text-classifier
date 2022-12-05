@@ -1,6 +1,6 @@
 {
   "name": "wink-naive-bayes-text-classifier",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Naive Bayes Text Classifier",
   "keywords": [
     "Naive Bayes",
