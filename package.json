@@ -16,8 +16,7 @@
   "main": "src/wink-naive-bayes-text-classifier.js",
   "scripts": {
     "pretest": "npm run lint && npm run docs",
-    "test": "nyc --reporter=html --reporter=text mocha ./test/",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "test": "nyc --reporter=html --reporter=lcov --reporter=text mocha ./test/",
     "sourcedocs": "docker -i src -o ./sourcedocs --sidebar no",
     "docs": "jsdoc src/*.js -c .jsdoc.json",
     "lint": "eslint ./src/*.js ./test/*.js ./runkit/*.js"
