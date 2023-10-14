@@ -26,5 +26,5 @@ jobs:
       uses: coverallsapp/github-action@v2
       with:
         format: lcov
-        debug: true
+        debug: false
         allow-empty: false
